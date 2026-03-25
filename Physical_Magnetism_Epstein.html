@@ -1,0 +1,901 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Physical Magnetism</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&display=swap" rel="stylesheet">
+
+<style>
+/* ===== Brand Tokens — Physical Magnetism palette ===== */
+:root {
+  --pm-black:   #0d0d0d;
+  --pm-white:   #f7f5f0;
+  --pm-cream:   #ede9df;
+  --pm-muted:   #7a7568;
+  --pm-border:  #c8c2b5;
+  --pm-olive:   #5c6b3a;
+  --pm-gold:    #c9a84c;
+  --pm-terra:   #a05a3a;
+  --pm-rose:    #c8896e;
+
+  --bg:         var(--pm-white);
+  --text:       var(--pm-black);
+  --muted:      var(--pm-muted);
+  --accent:     var(--pm-olive);
+  --accent2:    var(--pm-gold);
+  --surface:    var(--pm-cream);
+  --border:     var(--pm-border);
+
+  --font-display: 'DM Serif Display', Georgia, serif;
+  --font-body:    'DM Sans', system-ui, sans-serif;
+  --font-mono:    'DM Mono', 'Courier New', monospace;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 15px;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+}
+
+.wrap {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 3rem 2rem 4rem;
+  display: grid;
+  gap: 2.5rem;
+}
+
+/* NAV */
+.nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1.5px solid var(--border);
+  padding-bottom: 1.25rem;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+.brand { display: flex; align-items: center; gap: 0.85rem; }
+.brand img { height: 2.4rem; width: auto; border-radius: 6px; display: block; }
+.brand-text h1 {
+  font-family: var(--font-display);
+  font-size: 1.4rem; line-height: 1; letter-spacing: -0.01em;
+}
+.brand-text .tagline {
+  font-size: 0.72rem; color: var(--muted);
+  letter-spacing: 0.06em; text-transform: uppercase; margin-top: 2px;
+}
+.nav-badges { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+.badge {
+  font-family: var(--font-mono); font-size: 0.65rem; font-weight: 500;
+  letter-spacing: 0.04em; padding: 0.3rem 0.65rem;
+  border-radius: 999px; border: 1.5px solid; text-transform: uppercase;
+}
+.badge-olive {
+  background: color-mix(in oklab, var(--pm-olive) 12%, transparent);
+  color: var(--pm-olive);
+  border-color: color-mix(in oklab, var(--pm-olive) 40%, transparent);
+}
+.badge-gold {
+  background: color-mix(in oklab, var(--pm-gold) 12%, transparent);
+  color: color-mix(in oklab, var(--pm-gold) 75%, #000);
+  border-color: color-mix(in oklab, var(--pm-gold) 50%, transparent);
+}
+
+/* SECTION CARD */
+.section-card {
+  border: 1.5px solid var(--border);
+  border-radius: 14px;
+  padding: 2rem 2.2rem;
+  background: var(--surface);
+  position: relative; overflow: hidden;
+}
+.section-card::before {
+  content: ''; position: absolute; inset: 0; pointer-events: none;
+  background:
+    radial-gradient(60% 120% at 100% 0%, color-mix(in oklab, var(--pm-gold) 16%, transparent), transparent 60%),
+    radial-gradient(50% 100% at 0% 100%, color-mix(in oklab, var(--pm-olive) 12%, transparent), transparent 55%);
+}
+.section-card > * { position: relative; }
+.section-card h2 {
+  font-family: var(--font-display);
+  font-size: 1.75rem; line-height: 1.1; margin-bottom: 1rem; letter-spacing: -0.02em;
+}
+.section-card h3 {
+  font-family: var(--font-display);
+  font-size: 1.05rem; margin: 1.5rem 0 0.45rem; color: var(--pm-terra);
+}
+.section-card p { color: color-mix(in oklab, var(--text) 85%, var(--muted)); margin-bottom: 0.7rem; }
+.section-card p:last-child { margin-bottom: 0; }
+
+/* JSON BLOCK */
+.json-block {
+  background: color-mix(in oklab, var(--pm-black) 93%, var(--pm-cream));
+  color: #b8cfa0; border-radius: 10px;
+  padding: 1.25rem 1.5rem; font-family: var(--font-mono);
+  font-size: 0.71rem; line-height: 1.6; overflow-x: auto;
+  white-space: pre-wrap; word-break: break-word;
+  margin: 1rem 0; border: 1px solid color-mix(in oklab, var(--pm-olive) 28%, transparent);
+}
+
+/* COLOR LIST */
+.color-list {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+  gap: 0.45rem; margin-top: 1rem;
+}
+.color-list li {
+  display: flex; align-items: flex-start; gap: 0.6rem;
+  font-size: 0.81rem; line-height: 1.4; padding: 0.4rem 0.65rem;
+  border-radius: 6px; background: rgba(255,255,255,0.4); border: 1px solid var(--border);
+}
+.swatch {
+  flex-shrink: 0; width: 13px; height: 13px; border-radius: 3px;
+  margin-top: 2px; border: 1px solid rgba(0,0,0,0.12);
+}
+
+/* WAVE GRID */
+.wave-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 0.9rem; margin-top: 1rem;
+}
+.wave-card {
+  border: 1px solid var(--border); border-radius: 10px;
+  padding: 0.95rem 1rem; background: rgba(255,255,255,0.5);
+}
+.wave-card .wlabel {
+  font-family: var(--font-mono); font-size: 0.65rem; font-weight: 500;
+  color: var(--pm-olive); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.35rem;
+}
+.wave-card .wtitle {
+  font-family: var(--font-display); font-size: 0.9rem;
+  margin-bottom: 0.4rem; color: var(--pm-terra);
+}
+.wave-card ul { list-style: none; font-size: 0.77rem; color: var(--muted); line-height: 1.55; }
+.wave-card ul li::before { content: '→ '; color: var(--pm-gold); font-weight: 600; }
+
+/* PATHWAY GRID */
+.pathway-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.1rem;
+}
+.fig-card {
+  border: 1.5px solid var(--border); border-radius: 12px;
+  overflow: hidden; background: #fff; display: flex; flex-direction: column;
+}
+.fig-header {
+  padding: 0.5rem 0.8rem 0.35rem;
+  background: color-mix(in oklab, var(--pm-olive) 8%, var(--pm-cream));
+  border-bottom: 1px solid var(--border);
+}
+.fig-header .pname {
+  font-family: var(--font-mono); font-size: 0.7rem; font-weight: 500;
+  text-transform: uppercase; letter-spacing: 0.08em; color: var(--pm-olive);
+}
+.fig-card img {
+  width: 100%; height: 130px; object-fit: cover;
+  border-bottom: 1px solid var(--border); display: block;
+}
+.fig-body { padding: 0.7rem 0.8rem; font-size: 0.75rem; line-height: 1.5; flex: 1; }
+.fig-body .flabel {
+  font-weight: 600; color: var(--pm-terra); font-size: 0.68rem;
+  text-transform: uppercase; letter-spacing: 0.05em; display: block; margin-bottom: 0.12rem;
+}
+.fig-body .pathway-text {
+  color: color-mix(in oklab, var(--text) 78%, var(--muted)); margin-bottom: 0.45rem;
+}
+.traj-block {
+  background: color-mix(in oklab, var(--pm-gold) 9%, var(--pm-cream));
+  border: 1px solid color-mix(in oklab, var(--pm-gold) 35%, transparent);
+  border-radius: 7px; padding: 0.5rem 0.65rem; margin: 0.4rem 0;
+}
+.traj-block .ttype {
+  font-family: var(--font-mono); font-size: 0.61rem; text-transform: uppercase;
+  letter-spacing: 0.07em; color: var(--pm-gold); font-weight: 500;
+  display: block; margin-bottom: 0.18rem;
+}
+.traj-block p { font-size: 0.73rem; color: var(--text); margin: 0; }
+.prompt-block {
+  background: color-mix(in oklab, var(--pm-olive) 7%, transparent);
+  border-left: 2px solid var(--pm-olive); padding: 0.38rem 0.55rem;
+  border-radius: 0 6px 6px 0; font-size: 0.71rem; font-style: italic;
+  color: var(--pm-olive); margin-top: 0.4rem;
+}
+
+/* DATA TABLE */
+.table-wrap { overflow-x: auto; margin-top: 1rem; }
+.data-table {
+  width: 100%; border-collapse: collapse;
+  font-size: 0.79rem; font-family: var(--font-mono);
+}
+.data-table th {
+  font-size: 0.66rem; text-transform: uppercase; letter-spacing: 0.07em;
+  color: var(--pm-olive); border-bottom: 2px solid var(--border);
+  padding: 0.55rem 0.75rem; text-align: left; white-space: nowrap;
+}
+.data-table td {
+  padding: 0.48rem 0.75rem; border-bottom: 1px solid var(--border);
+  color: color-mix(in oklab, var(--text) 78%, var(--muted)); vertical-align: middle;
+}
+.data-table tr:first-child td { color: var(--text); font-weight: 500; }
+.data-table tr:hover td { background: color-mix(in oklab, var(--pm-gold) 5%, transparent); }
+.bar-wrap { display: flex; align-items: center; gap: 0.45rem; }
+.bar { height: 5px; border-radius: 999px; background: var(--pm-olive); min-width: 2px; }
+
+/* STEPS */
+.steps-list { display: grid; gap: 0.7rem; margin-top: 1rem; }
+.step-item { display: grid; grid-template-columns: 2rem 1fr; gap: 0.7rem; align-items: start; }
+.step-num { font-family: var(--font-mono); font-size: 0.7rem; color: var(--pm-gold); font-weight: 500; padding-top: 0.2rem; }
+.step-content h4 { font-family: var(--font-display); font-size: 0.92rem; margin-bottom: 0.18rem; }
+.step-content p { font-size: 0.8rem; color: var(--muted); }
+
+/* DIVIDER */
+.divider {
+  display: flex; align-items: center; gap: 0.7rem;
+  color: var(--muted); font-family: var(--font-mono);
+  font-size: 0.62rem; letter-spacing: 0.1em; text-transform: uppercase;
+  margin: 1.5rem 0 0;
+}
+.divider::before, .divider::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+/* BIB */
+.bib {
+  font-size: 0.79rem; color: var(--muted); line-height: 1.7;
+  border-left: 2px solid var(--border); padding-left: 1rem; margin-top: 1rem;
+}
+
+/* BLOCKQUOTE */
+blockquote {
+  border-left: 2.5px solid var(--pm-gold); padding-left: 1rem;
+  margin: 1rem 0; font-style: italic;
+  font-size: 0.86rem; line-height: 1.75; color: var(--muted);
+}
+blockquote p { margin-bottom: 0.55rem; }
+blockquote p:last-child { margin-bottom: 0; }
+
+/* FOOTER */
+.footer {
+  display: grid; grid-template-columns: 2fr 1fr; gap: 1.5rem;
+  align-items: center; border-top: 1.5px solid var(--border); padding-top: 1.2rem;
+}
+.cta-wrap { display: flex; gap: 0.75rem; align-items: center; flex-wrap: wrap; }
+.btn {
+  display: inline-block; padding: 0.52rem 1.15rem; border-radius: 999px;
+  font-weight: 600; font-size: 0.77rem; text-decoration: none; color: #0f1507;
+  background: linear-gradient(90deg, var(--pm-olive), var(--pm-gold));
+  border: 1.5px solid color-mix(in oklab, var(--pm-olive) 60%, #000);
+  font-family: var(--font-body); letter-spacing: 0.02em;
+}
+.footer-meta { font-size: 0.71rem; color: var(--muted); text-align: right; line-height: 1.55; }
+.footer-meta a { color: var(--pm-terra); text-decoration: none; }
+.footer-meta a:hover { text-decoration: underline; }
+
+/* RESPONSIVE */
+@media (max-width: 700px) {
+  .pathway-grid { grid-template-columns: 1fr 1fr; }
+  .wave-grid    { grid-template-columns: 1fr; }
+  .footer       { grid-template-columns: 1fr; }
+  .footer-meta  { text-align: left; }
+}
+@media (max-width: 500px) { .pathway-grid { grid-template-columns: 1fr; } }
+
+/* PRINT */
+@page { size: 8.5in 11in; margin: 0.85in; }
+@media print { a[href]:after { content: ''; } }
+</style>
+</head>
+
+<body>
+<div class="wrap">
+
+  <!-- NAV -->
+  <nav class="nav">
+    <div class="brand">
+      <img src="la matriz root only.png" alt="Physical Magnetism logo" onerror="this.style.display='none'">
+      <div class="brand-text">
+        <h1>Physical Magnetism</h1>
+        <div class="tagline">Semantic Color Math for Decisions and Systems</div>
+      </div>
+    </div>
+    <div class="nav-badges">
+      <span class="badge badge-olive">Natural Language Processing</span>
+      <span class="badge badge-gold">Feedback Loops</span>
+    </div>
+  </nav>
+
+
+  <!-- WELCOME -->
+  <section class="section-card">
+    <h2>Welcome</h2>
+    <p>Risky behavior is framed as individual failure. Parents are expected to emotionally support their children with full financial obligations, with 46% of all new income from global economic growth since 1980 going to the richest 5%. We never catch up in our rest banks once we make it past childhood because care is an unrewarded commodity.</p>
+    <p>Deficit narratives sell. People would rather engage with what they know and like. We need designs that teach, rather than simply label.</p>
+    <p>People repeat lines as expected instead of creating genuine feedback. Even the people with the most power aren't free in their bodies. My family has achieved social mobility to the top 1% through immigration from Hispañola with education.</p>
+    <p>We are so constricted in our decisions with current social striations that our news is beginning to show wilder stories every day. Instead of teaching healthy decisions, current algorithms replicate all of our behaviors. Social stigmas are embedded in design from sourcing our histories.</p>
+    <p>Bucket sorting offers a linear model for time. We sort based on attracting what we like, and not what we learn from. Sorting allows for data intimacy.</p>
+    <p>Deterministic models of story forms that shape healing can preconfigure a pathway when data is missing using apophenia. Once the physical momentum is determined through one conformal metaphor, it is preserved through changed variables in the same category of sentiment, as determined by color. This is expressed through the significance of colors in the sorting of sentiment; word similarity of color vector to word vector is a significant correlation.</p>
+    <p>Just like spaces prescribe how we exist within them, contexts in stories carry when data variables change. Different cultures are partial to different story maps. Color sorting with story forms allows for transversal over a spatial map of sentiment to verify message with meaning.</p>
+    <p>Mobility through structural boundaries becomes unleashed. By creating intimacy with data, learning becomes more playful and comfortable. Sorting with 13 colors applies faith to action.</p>
+    <p>Self embrace from nullifying harm by enforcing consent is the way we swim in water. We feel our own selves when we touch the atmosphere, so we intuitively learn how to balance the connection with external harmony. Emitting and interpreting echoes, like a whale's echolocation, can help with navigational sensing.</p>
+    <p>Subjectivity is always contained in objectivity because subjects can never be removed from their objects. All color interpretations are valid, and meaningful. There is a circular gradient of meaning for complimentary opposites.</p>
+    <p>Sorting with 13 colors rejects the null hypothesis. By removing precision on labels, access becomes inclusive. Our perspectives become revealed by our choices in labeling, rather than projecting forward.</p>
+    <p>Data intimacy through play with color bucket sorting can increase access to care. I dedicate and offer this work to stewards of land and body safety. A prayer for co-liberation.</p>
+
+    <h3>Bibliography</h3>
+    <div class="bib">
+      Benjamin, Ruha. 2019. <em>Race after Technology: Abolitionist Tools for the New Jim Code.</em> Polity.<br>
+      Boyd, Danah. 2014. <em>It's Complicated: The Social Lives of Networked Teens.</em> Yale University Press.<br>
+      Christian, Brian, and Tom Griffiths. 2016. <em>Algorithms to Live by.</em> Henry Holt And Company.<br>
+      Costanza-Chock, Sasha. 2020. <em>Design Justice: Community-Led Practices to Build the Worlds We Need.</em> MIT Press.<br>
+      Danah Zohar. 1989. <em>The Quantum Self: Consciousness, Physics and the New World View.</em> Bloomsbury.<br>
+      Federici, Silvia. 2004. <em>Caliban and the Witch: Women, the Body and Primitive Accumulation.</em> Autonomedia.<br>
+      Hickel, Jason. 2020. <em>Less Is More: Economics for the Age of Climate Change.</em> Penguin Random House.<br>
+      Karin Amimoto Ingersoll. 2016. <em>Waves of Knowing: A Seascape Epistemology.</em> Duke University Press.<br>
+      Klein, Lauren F, and Catherine D'Ignazio. 2020. <em>Data Feminism.</em> MIT Press.<br>
+      Noble, Safiya Umoja. 2018. <em>Algorithms of Oppression.</em> New York University Press.<br>
+      Zuckerman, Ethan. 2013. <em>Digital Cosmopolitans.</em> W. W. Norton &amp; Company.
+    </div>
+  </section>
+
+
+  <!-- NEWS DATA -->
+  <section class="section-card">
+    <h2>Epstein News Data</h2>
+    <p style="font-family:var(--font-mono); font-size:0.7rem; color:var(--muted); margin-bottom:1rem; letter-spacing:0.05em; text-transform:uppercase;">Friday, January 30, 2026 · 15 articles</p>
+    <div class="json-block">[
+  { "identity": { "url": "newyorker.com", "source": "left", "name": "businesses" },
+    "intersection": { "expression": "Rep. MTG has become a lightning rod for conservatives.", "body_experience": "mental strain", "intention": "adaptation" },
+    "policy_critique": { "origin": "community-led", "leak": "regulatory failure", "obstacles": "political resistance" },
+    "future": { "ritual": "adaptation", "depict": "transitional" } },
+
+  { "identity": { "url": "jacobin.com", "source": "left", "name": "citizens" },
+    "intersection": { "expression": "Steve Bannon's working-class rebellion had Epstein as a sounding board.", "body_experience": "labor stress", "intention": "adaptation" },
+    "policy_critique": { "origin": "colonial", "leak": "corruption", "obstacles": "political resistance" },
+    "future": { "depict": "transitional" } },
+
+  { "identity": { "url": "theintercept.com", "source": "left" },
+    "intersection": { "expression": "David Brooks attended a dinner with Jeffrey Epstein in 2011.", "body_experience": "health impact", "intention": "resistance" },
+    "policy_critique": { "leak": "resource extraction", "obstacles": "political resistance" },
+    "future": { "depict": "transitional" } },
+
+  { "identity": { "url": "npr.org", "source": "lean left", "name": "citizens" },
+    "intersection": { "expression": "TikTok investigating why users cannot send 'Epstein' in DMs. Gov. Newsom announced inquiry.", "body_experience": "health impact", "intention": "resistance" },
+    "intention_detail": { "impact": "localized change", "support": "grassroots support" },
+    "future": { "depict": "transitional" } },
+
+  { "identity": { "url": "propublica.org", "source": "lean left" },
+    "intersection": { "expression": "Todd Blanche held $159k+ in crypto assets when ending crypto enforcement investigations.", "body_experience": "health impact", "intention": "resistance" },
+    "policy_critique": { "leak": "corruption", "depletion": "economic depletion" },
+    "future": { "depict": "resilient" } },
+
+  { "identity": { "url": "cnn.com", "source": "lean left", "name": "governments" },
+    "intersection": { "expression": "AG Bondi, DAG Blanche told judges DOJ could not 'provide a specific date' for Epstein file release.", "intention": "resistance" },
+    "future": { "depict": "transitional" } },
+
+  { "identity": { "url": "bbc.com", "source": "center" },
+    "intersection": { "expression": "Lord Mandelson apologises to victims of Jeffrey Epstein.", "body_experience": "health impact", "intention": "resistance" },
+    "future": { "depict": "transitional" } },
+
+  { "identity": { "url": "newsweek.com", "source": "center" },
+    "intersection": { "expression": "TikTok users blocked from posting videos critical of ICE. Newsom launched state review.", "body_experience": "health impact", "intention": "adaptation" },
+    "future": { "depict": "transitional" } },
+
+  { "identity": { "url": "forbes.com", "source": "center", "name": "workers" },
+    "intersection": { "expression": "Epstein banned from Mar-a-Lago spa in 2003 after pressuring an 18-year-old worker.", "body_experience": "health impact", "intention": "adaptation" },
+    "future": { "depict": "transitional" } },
+
+  { "identity": { "url": "foxnews.com", "source": "lean right", "name": "workers" },
+    "intersection": { "expression": "House Oversight considering contempt votes for the Clintons over missed Epstein depositions.", "intention": "resistance" },
+    "future": { "depict": "transitional" } },
+
+  { "identity": { "url": "theexaminernews.com", "source": "lean right" },
+    "intersection": { "expression": "Greg Ardanowski met Little League coach Jimmy Collins at age 10; Collins later accused of sexual harassment.", "body_experience": "labor stress", "intention": "adaptation" },
+    "future": { "ritual": "remembrance", "depict": "resilient" } },
+
+  { "identity": { "url": "reason.com", "source": "lean right" },
+    "intersection": { "expression": "Shapiro passed over for Harris ticket; new book side-eyes the campaign.", "body_experience": "health impact", "intention": "resistance" },
+    "future": { "depict": "transitional" } },
+
+  { "identity": { "url": "dailymail.co.uk", "source": "right", "name": "governments" },
+    "intersection": { "expression": "Mark Epstein claims Republicans' names are being scrubbed from DOJ Epstein files.", "intention": "resistance" },
+    "future": { "depict": "transitional" } },
+
+  { "identity": { "url": "thepostmillennial.com", "source": "right" },
+    "intersection": { "expression": "Ghislaine Maxwell scheduled for closed-door House Oversight deposition Feb 9.", "intention": "resistance" },
+    "future": { "depict": "transitional" } },
+
+  { "identity": { "url": "spectator.org", "source": "right" },
+    "intersection": { "expression": "Larry Summers's contact with Epstein spanned 1998–2019, the day before his arrest.", "body_experience": "health impact", "intention": "adaptation" },
+    "future": { "ritual": "remembrance", "depict": "transitional" } }
+]</div>
+  </section>
+
+
+  <!-- COLOR WORLD -->
+  <section class="section-card">
+    <h2>Epstein's Color World</h2>
+    <div class="json-block">{
+  "identity": { "url": "multiple sources", "source": "left", "name": "citizens" },
+  "intersection": {
+    "expression": "David Brooks dined with Epstein 2011. TikTok blocked 'Epstein' in DMs. Gov. Newsom announced inquiry.",
+    "body_experience": "health impact", "intention": "resistance"
+  },
+  "demographic": { "race": "minority", "occupation": "policy makers", "health": "at risk" },
+  "intention": { "autonomy": "externally imposed", "new": "social innovation", "symbol": "resistance", "impact": "localized change", "support": "public support" },
+  "policy_critique": { "origin": "community-led", "leak": "resource extraction", "depletion": "social depletion", "obstacles": "political resistance" },
+  "future": { "ritual": "adaptation", "depict": "transitional" },
+  "meta": { "article_count": 15, "method": "most-common categorical + synthesized narrative" }
+}</div>
+
+    <p style="margin-top:1rem;">Policy letter in a lyrical yet precise style, grounded in the JSON outputs:</p>
+    <blockquote>
+      <p>To transform our collective future, we must first acknowledge the determinism of social construction. The personal politics of identity and community are intertwined, as reflected in the experiences of minority citizens, particularly those with at-risk health. Our intention is to resist the external imposition of autonomy and instead co-create a design for a more equitable future.</p>
+      <p>The body experience of health impact demands a localized change, which can only be achieved through public support. By addressing the resource extraction that depletes our social capital, we can preserve the symbol of resistance and create a new social innovation.</p>
+      <p>To end the origin of community-led efforts being derailed by political resistance, we must first identify and rectify the leak of information and resources. This requires an adaptation to the changing landscape, fueled by hope and guided by transitional principles.</p>
+      <p>Ultimately, our policy critique must prioritize the well-being of those most affected, ensuring that public support is mobilized to address the obstacles of social depletion. By doing so, we can depict a brighter future, one where expression flows freely, without fear of censorship or manipulation.</p>
+      <p>Let us work together to create a more just and equitable world, grounded in truth and moving forward with purpose.</p>
+    </blockquote>
+
+    <ul class="color-list">
+      <li><span class="swatch" style="background:rgb(170,170,170);"></span><strong>grey</strong> — cover, lose, precary → political resistance</li>
+      <li><span class="swatch" style="background:rgb(250,0,90);"></span><strong>pink</strong> — category, place, ambitious → social innovation</li>
+      <li><span class="swatch" style="background:rgb(250,200,0);"></span><strong>gold</strong> — pull, hide, technocracy lotiform → resistance</li>
+      <li><span class="swatch" style="background:rgb(250,180,120);"></span><strong>nude</strong> — approach, jump, unextenuable → external validation</li>
+      <li><span class="swatch" style="background:rgb(250,110,0);"></span><strong>orange</strong> — hit, drop, blurry artesian → localized change</li>
+      <li><span class="swatch" style="background:rgb(215,215,205); border:1px solid #bbb;"></span><strong>white</strong> — hope, block, analeptical → free speech</li>
+      <li><span class="swatch" style="background:rgb(0,0,255);"></span><strong>blue</strong> — collect, glean, photopathy → adaptation</li>
+      <li><span class="swatch" style="background:rgb(0,200,0);"></span><strong>green</strong> — transition, grow, bulbous heroic → transition</li>
+      <li><span class="swatch" style="background:rgb(255,0,0);"></span><strong>red</strong> — limit, cry, apophantic → resource extraction</li>
+      <li><span class="swatch" style="background:rgb(0,0,0);"></span><strong>black</strong> — order, scale, swabble → community</li>
+      <li><span class="swatch" style="background:rgb(180,50,0);"></span><strong>brown</strong> — learn, shrink, notable submissive → social empowerment</li>
+      <li><span class="swatch" style="background:rgb(255,220,0);"></span><strong>yellow</strong> — structure, array, redressible authority → public support</li>
+      <li><span class="swatch" style="background:rgb(180,50,255);"></span><strong>purple</strong> — free, cheer, brave → resistance</li>
+    </ul>
+  </section>
+
+
+  <!-- ALCHEMIZE + LINE GRAPHS -->
+  <section class="section-card">
+    <h2>Alchemize with Color</h2>
+    <p>To use this tabular, find the color meaning you want to attract or release. To <strong>attract</strong> a color, find sequences with high Gross National Happiness scores for that color — the longest bars of the matching color. To <strong>repel</strong> a color, find sequences with the lowest GNH scores — the shortest bars. The power of metaphor and story, mixed with the containment of conformal shapes, allows for controlled, bottom-up navigation.</p>
+
+    <div class="divider">Reading the Line Graphs</div>
+
+    <p style="margin-top:1rem;">Each RGB array within a sequence is treated as a discrete signal. When converted into complex momentum, it behaves like a wave packet:</p>
+
+    <div class="wave-grid">
+      <div class="wave-card">
+        <div class="wlabel">Component A</div>
+        <div class="wtitle">Real Part → Standing / Traveling Wave</div>
+        <ul>
+          <li>Represents the in-phase oscillation</li>
+          <li>Smooth variation → coherent wave</li>
+          <li>Sharp sign changes → reflections or boundaries</li>
+          <li>Positive → forward propagation; negative → reverse wave</li>
+          <li>Symmetry → standing wave behavior</li>
+        </ul>
+      </div>
+      <div class="wave-card">
+        <div class="wlabel">Component B</div>
+        <div class="wtitle">Imaginary Part → Phase-Shifted Wave</div>
+        <ul>
+          <li>Represents the 90° shifted component</li>
+          <li>Strong oscillations → rotating or spiral wave motion</li>
+          <li>Zero crossings → resonance nodes</li>
+          <li>Large swings → phase instability or mode switching</li>
+        </ul>
+      </div>
+      <div class="wave-card">
+        <div class="wlabel">Component C</div>
+        <div class="wtitle">Magnitude → Wave Energy Womb</div>
+        <ul>
+          <li>Flat magnitude → energy-conserving wave</li>
+          <li>Spikes → localized excitation</li>
+          <li>Drops → damping or destructive interference</li>
+          <li>Nearly constant → stable wave packet (no energy loss, only phase rotation)</li>
+        </ul>
+      </div>
+      <div class="wave-card">
+        <div class="wlabel">Component D — most important</div>
+        <div class="wtitle">Phase → Wave Direction &amp; Interference</div>
+        <ul>
+          <li>Linear change → traveling wave</li>
+          <li>Sudden jumps → phase / mode change</li>
+          <li>Oscillatory → standing or beating wave</li>
+          <li>Crossing ±π → wave inversion</li>
+        </ul>
+      </div>
+      <div class="wave-card" style="grid-column: span 2;">
+        <div class="wlabel">Component E</div>
+        <div class="wtitle">Trajectory Plot → Wave Path in Space</div>
+        <ul>
+          <li>Points → wave samples; lines → propagation path; color gradient → time evolution</li>
+          <li>Straight line → uniform propagation; zig-zag → interference or reflection</li>
+          <li>Closed loops → standing wave or resonance cavity</li>
+          <li>Knots / crossings → topological wave modes</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- KNOT CONTAINER -->
+  <section class="section-card">
+    <h2>Setting the Womb: The Knot Container</h2>
+    <p style="margin-bottom:1.2rem;">This process is not therapy, diagnosis, or performance. It is a sovereign space where shadow is allowed to exist long enough to reorganize itself, held by color, sequence, body, and consent.</p>
+    <div class="steps-list">
+      <div class="step-item">
+        <div class="step-num">00</div>
+        <div class="step-content">
+          <h4>Land &amp; Lineage Acknowledgement</h4>
+          <p>Begin by orienting to place and inheritance — a land acknowledgement honoring the ancestral and ecological context of where the work is taking place, and an intentional lineage acknowledgement informed by the Color World above. This step establishes that the work is held within a wider field of relation.</p>
+        </div>
+      </div>
+      <div class="step-item">
+        <div class="step-num">01</div>
+        <div class="step-content">
+          <h4>Identify the Block</h4>
+          <p>Name, do not solve, the current block — emotional stagnation, repetitive relational patterns, somatic tension, or cognitive loops. Locate where the Knot has formed, without forcing interpretation or self-correction.</p>
+        </div>
+      </div>
+      <div class="step-item">
+        <div class="step-num">02</div>
+        <div class="step-content">
+          <h4>Reading</h4>
+          <p>A short, curated reading to attune the nervous system and symbolic mind. Functions as a tuning fork for shared resonance, a permission slip to move beyond linear logic, a softening of internal surveillance. Not instructional — atmospheric.</p>
+        </div>
+      </div>
+      <div class="step-item">
+        <div class="step-num">03</div>
+        <div class="step-content">
+          <h4>Guided Visualization &amp; Meditation</h4>
+          <p>Establishes internal safety and orientation. Activates somatic awareness before analysis. Prepares the psyche to encounter shadow without fragmentation. The aim is not transcendence, but presence.</p>
+        </div>
+      </div>
+      <div class="step-item">
+        <div class="step-num">04</div>
+        <div class="step-content">
+          <h4>Knot Sequence</h4>
+          <p>The core womb structure. Holds contradiction without collapse. Allows intensity to arise alongside boundaries. Prevents premature meaning-making. Supports participants in staying with what is entangled, rather than bypassing it.</p>
+        </div>
+      </div>
+      <div class="step-item">
+        <div class="step-num">05</div>
+        <div class="step-content">
+          <h4>Plot Sequence</h4>
+          <p>Traces how the block came into being — examining how value, attachment, or survival strategies shaped the story; where influence or adaptation altered integrity; how movement began, stalled, or diverted. Restores narrative continuity without blame.</p>
+        </div>
+      </div>
+      <div class="step-item">
+        <div class="step-num">06</div>
+        <div class="step-content">
+          <h4>Additional Sequences (As Needed)</h4>
+          <p>Pain, Sad, Fem, Direct, etc. introduced selectively depending on what colors / GNH indicators the material calls for. Not additive — responsive, offering specific pathways for different complimentary oppositions.</p>
+        </div>
+      </div>
+      <div class="step-item">
+        <div class="step-num">07</div>
+        <div class="step-content">
+          <h4>Physical Trajectory Reflection</h4>
+          <p>Reflect on how the work moved through the body: shifts in posture, breath, or tension; moments of contraction or expansion; where clarity felt embodied rather than conceptual. The body is treated as data, not metaphor.</p>
+        </div>
+      </div>
+      <div class="step-item">
+        <div class="step-num">08</div>
+        <div class="step-content">
+          <h4>Discussion &amp; Shedding</h4>
+          <p>Participants invited to share selectively, with emphasis on accountability rather than confession, witnessing rather than fixing, naming what is being released and returned.</p>
+        </div>
+      </div>
+      <div class="step-item">
+        <div class="step-num">09</div>
+        <div class="step-content">
+          <h4>Closing</h4>
+          <p>The container is closed intentionally — a brief grounding statement, a return to land and lineage, a reminder that integration continues beyond the session. The womb is sealed, not to trap, but to protect what has been created.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- PATHWAYS -->
+  <section class="section-card">
+    <h2>Pathway Readings</h2>
+    <p style="margin-bottom:1.4rem;">Each pathway shows the sequence diagram alongside the Epstein GNH momentum plot. Trajectory interpretations apply the wave-reading framework above — phase behavior, energy contour, and propagation type inform each reading.</p>
+
+    <div class="pathway-grid">
+
+      <div class="fig-card">
+        <div class="fig-header"><span class="pname">plot</span></div>
+        <img src="plot pathway.png" alt="plot pathway" onerror="this.style.display='none'">
+        <img src="epstein_plot.png" alt="epstein GNH plot" onerror="this.style.display='none'">
+        <div class="fig-body">
+          <span class="flabel">Pathway</span>
+          <div class="pathway-text">Set political resistance from social innovation and resistance to return external validation and localized change.<br><span style="color:var(--muted); font-size:0.68rem;">Grey · Pink · Gold · Nude · Orange</span></div>
+          <div class="traj-block">
+            <span class="ttype">Self-actualization — traveling wave</span>
+            <p>Phase is linear, real part holds positive: a coherent traveling wave. Begins at 'precary,' builds toward 'blurry artesian' without inversion. No sudden jumps — a steady arc of overcoming obstacles and growth through forward propagation.</p>
+          </div>
+          <div class="prompt-block">How can we separate political resistance from public resistance and social design efforts? How can we focus on feedback from areas of success and real affect?</div>
+        </div>
+      </div>
+
+      <div class="fig-card">
+        <div class="fig-header"><span class="pname">knot</span></div>
+        <img src="knot pathway.png" alt="knot pathway" onerror="this.style.display='none'">
+        <img src="epstein_knot.png" alt="epstein GNH knot" onerror="this.style.display='none'">
+        <div class="fig-body">
+          <span class="flabel">Pathway</span>
+          <div class="pathway-text">Clarify free speech with adaptation from transition. Resource extraction melts with community from social empowerment due to public support for resistance.<br><span style="color:var(--muted); font-size:0.68rem;">White · Blue · Green · Red · Black · Brown · Yellow · Purple</span></div>
+          <div class="traj-block">
+            <span class="ttype">Circular / healing — resonance cavity</span>
+            <p>Closed loops in the trajectory confirm a standing wave or resonance cavity. Magnitude is nearly constant — stable wave packet, no energy loss, only phase rotation. 'Analeptical' to 'brave' navigates reclamation through contained contradiction.</p>
+          </div>
+          <div class="prompt-block">Where is our freedom of expression protected? How can we drag out those boundaries by taking feedback from successful plots? How can we contribute to data sovereignty?</div>
+        </div>
+      </div>
+
+      <div class="fig-card">
+        <div class="fig-header"><span class="pname">pain</span></div>
+        <img src="pain pathway.png" alt="pain pathway" onerror="this.style.display='none'">
+        <img src="epstein_pain.png" alt="epstein GNH pain" onerror="this.style.display='none'">
+        <div class="fig-body">
+          <span class="flabel">Pathway</span>
+          <div class="pathway-text">Use inspiration from clarity and distribution from resistance to address pain from localized change as a return.<br><span style="color:var(--muted); font-size:0.68rem;">Gold · Orange</span></div>
+          <div class="traj-block">
+            <span class="ttype">Oppression — vertical penetration</span>
+            <p>A vertical line in the trajectory indicates uniform penetration — traveling wave with near-zero interference. Imaginary part shows minimal rotation; phase drops without oscillation. 'Technocracy lotiform' to 'blurry artesian' passes through downward pressure with no lateral escape: direct passage through obstacle.</p>
+          </div>
+          <div class="prompt-block">How does the impact of resistance directly affect political resistance?</div>
+        </div>
+      </div>
+
+      <div class="fig-card">
+        <div class="fig-header"><span class="pname">practical</span></div>
+        <img src="practical pathway.png" alt="practical pathway" onerror="this.style.display='none'">
+        <img src="epstein_practical.png" alt="epstein GNH practical" onerror="this.style.display='none'">
+        <div class="fig-body">
+          <span class="flabel">Pathway</span>
+          <div class="pathway-text">Use energy from work to achieve public support for the transition.<br><span style="color:var(--muted); font-size:0.68rem;">Yellow · Green</span></div>
+          <div class="traj-block">
+            <span class="ttype">Steady state — energy-conserving wave</span>
+            <p>Flat magnitude across the full plot confirms energy conservation — persistent, stable. Phase remains consistent: coherent wave maintaining identity. 'Redressible authority' to 'bulbous heroic' sustains a consistent channel for social connection in the trajectory of resistance.</p>
+          </div>
+          <div class="prompt-block">How can we dedicate our efforts to social connection in the trajectory of resistance?</div>
+        </div>
+      </div>
+
+      <div class="fig-card">
+        <div class="fig-header"><span class="pname">spiritual</span></div>
+        <img src="spiritual pathway.png" alt="spiritual pathway" onerror="this.style.display='none'">
+        <img src="epstein_spiritual.png" alt="epstein GNH spiritual" onerror="this.style.display='none'">
+        <div class="fig-body">
+          <span class="flabel">Pathway</span>
+          <div class="pathway-text">Adaptation with social empowerment.<br><span style="color:var(--muted); font-size:0.68rem;">Blue · Brown</span></div>
+          <div class="traj-block">
+            <span class="ttype">Incline — accumulating complexity</span>
+            <p>Real part begins positive, trends negative (traveling wave shifting to reflected). Imaginary part strengthens over time, indicating growing rotational complexity. Magnitude rises — energy accumulation. 'Photopathy' to 'notable submissive': stable ground gives way to deeper difficulty as social resources are tested against actual community needs.</p>
+          </div>
+          <div class="prompt-block">How can we be sure that our social resources actually meet our community goals and needs?</div>
+        </div>
+      </div>
+
+      <div class="fig-card">
+        <div class="fig-header"><span class="pname">prayer</span></div>
+        <img src="prayer pathway.png" alt="prayer pathway" onerror="this.style.display='none'">
+        <img src="epstein_prayer.png" alt="epstein GNH prayer" onerror="this.style.display='none'">
+        <div class="fig-body">
+          <span class="flabel">Pathway</span>
+          <div class="pathway-text">External validation toward free speech.<br><span style="color:var(--muted); font-size:0.68rem;">Nude · White</span></div>
+          <div class="traj-block">
+            <span class="ttype">Incline — increasing complexity</span>
+            <p>Phase increases monotonically, magnitude accumulates. Wave packet moves into higher complexity without resolution. 'Unextenuable' to 'analeptical' moves from embodied resistance toward something restorative but not yet arrived — navigating a culture of acceptance through increasing tension rather than release.</p>
+          </div>
+          <div class="prompt-block">How can we support a culture of acceptance?</div>
+        </div>
+      </div>
+
+      <div class="fig-card">
+        <div class="fig-header"><span class="pname">sad</span></div>
+        <img src="sad pathway.png" alt="sad pathway" onerror="this.style.display='none'">
+        <img src="epstein_sad.png" alt="epstein GNH sad" onerror="this.style.display='none'">
+        <div class="fig-body">
+          <span class="flabel">Pathway</span>
+          <div class="pathway-text">Use freedom from resistance to political resistance for resource extraction awareness.<br><span style="color:var(--muted); font-size:0.68rem;">Purple · Grey · Red</span></div>
+          <div class="traj-block">
+            <span class="ttype">Incline then decline — wave inversion + release</span>
+            <p>Phase rises to a peak then crosses ±π — wave inversion at the apex. Magnitude spikes (localized excitation) then drops (destructive interference). Zig-zag trajectory: interference then reflection. 'Brave' to 'apophantic' — naming what has been extracted is itself a form of return.</p>
+          </div>
+          <div class="prompt-block">How can we expand the space we achieve from resistance and dedicate it back to our collection of more data?</div>
+        </div>
+      </div>
+
+      <div class="fig-card">
+        <div class="fig-header"><span class="pname">precise</span></div>
+        <img src="precise pathway.png" alt="precise pathway" onerror="this.style.display='none'">
+        <img src="epstein_precise.png" alt="epstein GNH precise" onerror="this.style.display='none'">
+        <div class="fig-body">
+          <span class="flabel">Pathway</span>
+          <div class="pathway-text">Give openness from social innovation to community.<br><span style="color:var(--muted); font-size:0.68rem;">Pink · Black</span></div>
+          <div class="traj-block">
+            <span class="ttype">Flat / stable — most coherent wave</span>
+            <p>Constant magnitude, steady phase — the most coherent wave in the set. No oscillation in the imaginary part; real part holds flat. Near-straight trajectory: uniform propagation. 'Ambitious' to 'swabble' holds an enduring channel between social innovation and community — design for the cracks.</p>
+          </div>
+          <div class="prompt-block">How can we specifically direct our new designs to the cracks that cause separation between differences?</div>
+        </div>
+      </div>
+
+      <div class="fig-card">
+        <div class="fig-header"><span class="pname">feminine</span></div>
+        <img src="fem pathway.png" alt="feminine pathway" onerror="this.style.display='none'">
+        <img src="epstein_feminine.png" alt="epstein GNH feminine" onerror="this.style.display='none'">
+        <div class="fig-body">
+          <span class="flabel">Pathway</span>
+          <div class="pathway-text">Use social empowerment to resist pain of localized change as new social innovation.<br><span style="color:var(--muted); font-size:0.68rem;">Brown · Gold · Orange · Pink</span></div>
+          <div class="traj-block">
+            <span class="ttype">Consistent / stable — slow reclamation</span>
+            <p>Flat magnitude with low-amplitude real oscillation — coherent, energy-conserving. Phase moves gradually, suggesting gentle mode transition rather than rupture. 'Notable submissive' to 'ambitious': sovereignty validated through network, avant-garde comfort found through constancy.</p>
+          </div>
+          <div class="prompt-block">Where are our sources that charge our sovereignty and validate our identities in a network? How can we make ourselves more comfortable with the ontology of change and the avant garde?</div>
+        </div>
+      </div>
+
+      <div class="fig-card">
+        <div class="fig-header"><span class="pname">masculine</span></div>
+        <img src="masc pathway.png" alt="masculine pathway" onerror="this.style.display='none'">
+        <img src="epstein_masculine.png" alt="epstein GNH masculine" onerror="this.style.display='none'">
+        <div class="fig-body">
+          <span class="flabel">Pathway</span>
+          <div class="pathway-text">Use awareness from resource extraction to adaptation to address pain from localized change as a seed for a return.<br><span style="color:var(--muted); font-size:0.68rem;">Red · Blue · Orange</span></div>
+          <div class="traj-block">
+            <span class="ttype">Grounding / decline — damped resolution</span>
+            <p>Real part starts positive and declines (forward propagation shifting toward reflection). Magnitude drops: damping, energy release into environment. Grounded downward arc resolving rather than escalating. 'Apophantic' to 'blurry artesian' — extracting what was hidden, seeding a return through momentum and unity.</p>
+          </div>
+          <div class="prompt-block">What is the missing data around the people who have power over us? What changes are developing from political resistance? How can we instill momentum and unity amongst differences?</div>
+        </div>
+      </div>
+
+      <div class="fig-card">
+        <div class="fig-header"><span class="pname">direct</span></div>
+        <img src="direct pathway.png" alt="direct pathway" onerror="this.style.display='none'">
+        <img src="epstein_direct.png" alt="epstein GNH direct" onerror="this.style.display='none'">
+        <div class="fig-body">
+          <span class="flabel">Pathway</span>
+          <div class="pathway-text">Use gratitude from a return and inspiration from clarity to limit resource extraction from localized change.<br><span style="color:var(--muted); font-size:0.68rem;">Red · Orange</span></div>
+          <div class="traj-block">
+            <span class="ttype">Steady degrowth — deliberate damping</span>
+            <p>Monotonically decreasing real part — forward wave slowing to stillness. Phase is linear throughout: pure traveling wave with no reflection, no oscillation. Magnitude holds then drops (final damping). 'Apophantic' to 'blurry artesian' with deliberate downward purpose — degrowth as design. What our innovations leave in their wake structures our resource networks.</p>
+          </div>
+          <div class="prompt-block">How can the impact of our creations and innovations in design inform how we structure our resource networks?</div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- OPTIMIZED CIRCUITRY -->
+  <section class="section-card">
+    <h2>Optimized Circuitry for Epstein's Color World</h2>
+    <p style="margin-bottom:1rem;">Network analysis of color-concept relationships. Closeness and betweenness centrality reveal which concepts act as bridges or hubs within the semantic field.</p>
+    <img src="epstein_network.png" alt="Epstein network diagram" style="width:100%; border-radius:10px; border:1px solid var(--border); margin-bottom:1.25rem; display:block;" onerror="this.style.display='none'">
+    <div class="table-wrap">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Concept</th>
+            <th>Optimal Score</th>
+            <th>Eigenvector</th>
+            <th>Closeness</th>
+            <th>Betweenness</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>0</td>
+            <td><span class="swatch" style="background:rgb(250,180,120); display:inline-block; width:9px; height:9px; border-radius:2px; margin-right:5px; vertical-align:middle;"></span>Nude — external validation</td>
+            <td><div class="bar-wrap"><div class="bar" style="width:40px;"></div>0.333</div></td>
+            <td>0.1265</td><td>1.0</td><td>0.6212</td>
+          </tr>
+          <tr>
+            <td>1</td>
+            <td><span class="swatch" style="background:rgb(170,170,170); display:inline-block; width:9px; height:9px; border-radius:2px; margin-right:5px; vertical-align:middle;"></span>Grey — political resistance</td>
+            <td><div class="bar-wrap"><div class="bar" style="width:40px;"></div>0.333</div></td>
+            <td>0.3349</td><td>1.0</td><td>0.0000</td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td><span class="swatch" style="background:rgb(0,0,0); display:inline-block; width:9px; height:9px; border-radius:2px; margin-right:5px; vertical-align:middle; border:1px solid #ccc;"></span>Black — community</td>
+            <td><div class="bar-wrap"><div class="bar" style="width:39px;"></div>0.326</div></td>
+            <td>0.3305</td><td>1.0</td><td>0.0000</td>
+          </tr>
+          <tr>
+            <td>3</td>
+            <td><span class="swatch" style="background:rgb(250,200,0); display:inline-block; width:9px; height:9px; border-radius:2px; margin-right:5px; vertical-align:middle;"></span>Gold — resistance</td>
+            <td><div class="bar-wrap"><div class="bar" style="width:38px;"></div>0.320</div></td>
+            <td>0.2252</td><td>1.0</td><td>0.3030</td>
+          </tr>
+          <tr>
+            <td>4</td>
+            <td><span class="swatch" style="background:rgb(180,50,255); display:inline-block; width:9px; height:9px; border-radius:2px; margin-right:5px; vertical-align:middle;"></span>Purple — resistance</td>
+            <td><div class="bar-wrap"><div class="bar" style="width:36px;"></div>0.297</div></td>
+            <td>0.2864</td><td>1.0</td><td>0.0758</td>
+          </tr>
+          <tr>
+            <td>5</td>
+            <td><span class="swatch" style="background:rgb(180,50,0); display:inline-block; width:9px; height:9px; border-radius:2px; margin-right:5px; vertical-align:middle;"></span>Brown — social empowerment</td>
+            <td><div class="bar-wrap"><div class="bar" style="width:34px;"></div>0.284</div></td>
+            <td>0.3038</td><td>1.0</td><td>0.0000</td>
+          </tr>
+          <tr>
+            <td>6</td>
+            <td><span class="swatch" style="background:rgb(250,0,90); display:inline-block; width:9px; height:9px; border-radius:2px; margin-right:5px; vertical-align:middle;"></span>Pink — social innovation</td>
+            <td><div class="bar-wrap"><div class="bar" style="width:33px;"></div>0.279</div></td>
+            <td>0.3009</td><td>1.0</td><td>0.0000</td>
+          </tr>
+          <tr>
+            <td>7</td>
+            <td><span class="swatch" style="background:rgb(0,200,0); display:inline-block; width:9px; height:9px; border-radius:2px; margin-right:5px; vertical-align:middle;"></span>Green — transition</td>
+            <td><div class="bar-wrap"><div class="bar" style="width:32px;"></div>0.269</div></td>
+            <td>0.2943</td><td>1.0</td><td>0.0000</td>
+          </tr>
+          <tr>
+            <td>8</td>
+            <td><span class="swatch" style="background:rgb(0,0,255); display:inline-block; width:9px; height:9px; border-radius:2px; margin-right:5px; vertical-align:middle;"></span>Blue — adaptation</td>
+            <td><div class="bar-wrap"><div class="bar" style="width:32px;"></div>0.268</div></td>
+            <td>0.2940</td><td>1.0</td><td>0.0000</td>
+          </tr>
+          <tr>
+            <td>9</td>
+            <td><span class="swatch" style="background:rgb(255,220,0); display:inline-block; width:9px; height:9px; border-radius:2px; margin-right:5px; vertical-align:middle;"></span>Yellow — public support</td>
+            <td><div class="bar-wrap"><div class="bar" style="width:32px;"></div>0.268</div></td>
+            <td>0.2939</td><td>1.0</td><td>0.0000</td>
+          </tr>
+          <tr>
+            <td>10</td>
+            <td><span class="swatch" style="background:rgb(215,215,205); display:inline-block; width:9px; height:9px; border-radius:2px; margin-right:5px; vertical-align:middle; border:1px solid #bbb;"></span>White — free speech</td>
+            <td><div class="bar-wrap"><div class="bar" style="width:28px;"></div>0.236</div></td>
+            <td>0.2742</td><td>1.0</td><td>0.0000</td>
+          </tr>
+          <tr>
+            <td>11</td>
+            <td><span class="swatch" style="background:rgb(250,110,0); display:inline-block; width:9px; height:9px; border-radius:2px; margin-right:5px; vertical-align:middle;"></span>Orange — localized change</td>
+            <td><div class="bar-wrap"><div class="bar" style="width:24px;"></div>0.201</div></td>
+            <td>0.2522</td><td>1.0</td><td>0.0000</td>
+          </tr>
+          <tr>
+            <td>12</td>
+            <td><span class="swatch" style="background:rgb(255,0,0); display:inline-block; width:9px; height:9px; border-radius:2px; margin-right:5px; vertical-align:middle;"></span>Red — resource extraction</td>
+            <td><div class="bar-wrap"><div class="bar" style="width:18px;"></div>0.151</div></td>
+            <td>0.2208</td><td>1.0</td><td>0.0000</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="cta-wrap">
+      <a class="btn" href="https://chatgpt.com/g/g-686180b5d47c8191bdbb1922b79a2ebb-la-matriz-consulting-color-oracle">Open the Color Oracle</a>
+      <div style="font-size:0.73rem; color:var(--muted); line-height:1.5;">
+        Consulting &amp; research inquiries:<br>
+        <strong><a href="mailto:daniellegauthier2028@u.northwestern.edu" style="color:var(--pm-terra); text-decoration:none;">daniellegauthier2028@u.northwestern.edu</a></strong>
+      </div>
+    </div>
+    <div class="footer-meta">
+      © Physical Magnetism<br>
+      <a href="https://daniellegauthier.github.io/physicalmagnetism.html/consulting">physicalmagnetism.html</a>
+    </div>
+  </footer>
+
+</div>
+</body>
+</html>
