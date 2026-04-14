@@ -1,0 +1,1668 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Physical Magnetism — Epstein Zine</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+
+/* ── TOKENS ── */
+:root {
+  --black:  #0d0d0d;
+  --white:  #ffffff;
+  --cream:  #f7f5f0;
+  --muted:  #7a7568;
+  --border: #c8c2b5;
+  --olive:  #5c6b3a;
+  --gold:   #c9a84c;
+  --terra:  #a05a3a;
+
+  --fd: 'DM Serif Display', Georgia, serif;
+  --fb: 'DM Sans', system-ui, sans-serif;
+  --fm: 'DM Mono', 'Courier New', monospace;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+/* ── SCREEN PREVIEW ── */
+body {
+  background: #e8e4dc;
+  font-family: var(--fb);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── SHEET: US Letter landscape = 11in × 8.5in ──
+   Hamburger fold vertical: fold along vertical center
+   Left panel = 5.5in wide, Right panel = 5.5in wide
+   Each panel is portrait: 5.5in × 8.5in
+*/
+.sheet {
+  width: 11in;
+  height: 8.5in;
+  background: #fff;
+  display: flex;
+  position: relative;
+  margin: 0.5in auto 0.75in;
+  box-shadow: 0 4px 32px rgba(0,0,0,0.18);
+  page-break-after: always;
+  break-after: page;
+}
+
+/* fold guide — screen only */
+.sheet::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 0; bottom: 0;
+  width: 1px;
+  background: repeating-linear-gradient(to bottom, #bbb 0, #bbb 4px, transparent 4px, transparent 8px);
+  pointer-events: none;
+}
+
+/* ── PANEL: half-sheet portrait ── */
+.panel {
+  width: 5.5in;
+  height: 8.5in;
+  flex-shrink: 0;
+  padding: 0.45in 0.42in;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  position: relative;
+}
+
+/* ── PANEL VARIANTS ── */
+.panel-cover {
+  background: var(--black);
+  color: var(--white);
+  justify-content: space-between;
+}
+
+.panel-back {
+  background: var(--cream);
+  justify-content: space-between;
+}
+
+.panel-white {
+  background: #fff;
+}
+
+.panel-toc {
+  background: var(--cream);
+}
+
+/* ── COVER TYPOGRAPHY ── */
+.cover-eyebrow {
+  font-family: var(--fm);
+  font-size: 7pt;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+.cover-title {
+  font-family: var(--fd);
+  font-size: 38pt;
+  line-height: 0.95;
+  letter-spacing: -0.02em;
+  margin-top: 0.15in;
+  color: #fff;
+}
+.cover-title em {
+  font-style: italic;
+  color: var(--gold);
+}
+.cover-sub {
+  font-family: var(--fm);
+  font-size: 7.5pt;
+  color: rgba(255,255,255,0.55);
+  margin-top: 0.18in;
+  line-height: 1.6;
+  letter-spacing: 0.04em;
+}
+.cover-rule {
+  height: 1px;
+  background: linear-gradient(90deg, var(--gold), transparent);
+  margin: 0.22in 0;
+}
+.cover-bottom {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1in;
+}
+.cover-byline {
+  font-family: var(--fm);
+  font-size: 6.5pt;
+  color: rgba(255,255,255,0.45);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.cover-date {
+  font-family: var(--fm);
+  font-size: 7pt;
+  color: var(--gold);
+  letter-spacing: 0.05em;
+}
+
+/* Color bar strip */
+.color-strip {
+  display: flex;
+  height: 4pt;
+  margin: 0.18in 0 0.12in;
+  border-radius: 2pt;
+  overflow: hidden;
+}
+.color-strip span {
+  flex: 1;
+}
+
+/* ── SECTION HEADERS ── */
+.section-label {
+  font-family: var(--fm);
+  font-size: 6pt;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--olive);
+  margin-bottom: 0.08in;
+  display: flex;
+  align-items: center;
+  gap: 0.08in;
+}
+.section-label::after {
+  content: '';
+  flex: 1;
+  height: 0.5pt;
+  background: var(--border);
+}
+
+.page-title {
+  font-family: var(--fd);
+  font-size: 20pt;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  color: var(--black);
+  margin-bottom: 0.12in;
+}
+.page-title-sm {
+  font-family: var(--fd);
+  font-size: 14pt;
+  line-height: 1.1;
+  letter-spacing: -0.015em;
+  color: var(--black);
+  margin-bottom: 0.1in;
+}
+
+/* ── BODY TEXT ── */
+.body-text {
+  font-family: var(--fb);
+  font-size: 7.8pt;
+  line-height: 1.62;
+  color: #2a2a2a;
+}
+.body-text p { margin-bottom: 0.09in; }
+.body-text p:last-child { margin-bottom: 0; }
+
+.mono-text {
+  font-family: var(--fm);
+  font-size: 6.5pt;
+  line-height: 1.55;
+  color: var(--muted);
+}
+
+/* ── ARTICLE PAGE ── */
+.article-source {
+  font-family: var(--fm);
+  font-size: 6pt;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--terra);
+  margin-bottom: 0.06in;
+}
+.article-url {
+  font-family: var(--fm);
+  font-size: 5.5pt;
+  color: var(--muted);
+  margin-bottom: 0.14in;
+  word-break: break-all;
+}
+.article-quote {
+  font-family: var(--fd);
+  font-style: italic;
+  font-size: 9.5pt;
+  line-height: 1.5;
+  color: var(--black);
+  border-left: 1.5pt solid var(--gold);
+  padding-left: 0.12in;
+  margin: 0.1in 0 0.14in;
+}
+.article-divider {
+  height: 0.5pt;
+  background: var(--border);
+  margin: 0.1in 0;
+}
+.kv-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.04in 0.1in;
+  margin-top: 0.06in;
+}
+.kv-item { display: flex; flex-direction: column; }
+.kv-key {
+  font-family: var(--fm);
+  font-size: 5pt;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 1pt;
+}
+.kv-val {
+  font-family: var(--fb);
+  font-size: 6.8pt;
+  color: var(--black);
+  font-weight: 500;
+}
+.tag-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.04in;
+  margin-top: 0.08in;
+}
+.tag {
+  font-family: var(--fm);
+  font-size: 5.5pt;
+  letter-spacing: 0.06em;
+  padding: 1.5pt 5pt;
+  border-radius: 99pt;
+  border: 0.5pt solid var(--border);
+  color: var(--muted);
+  text-transform: uppercase;
+}
+.tag-olive {
+  border-color: var(--olive);
+  color: var(--olive);
+  background: rgba(92,107,58,0.06);
+}
+.tag-terra {
+  border-color: var(--terra);
+  color: var(--terra);
+  background: rgba(160,90,58,0.06);
+}
+
+/* ── PATHWAY SPREAD ── */
+/* Left panel: sequence diagram area + color labels */
+/* Right panel: trajectory + prompts */
+
+.pathway-name {
+  font-family: var(--fm);
+  font-size: 7pt;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--olive);
+  margin-bottom: 0.06in;
+}
+.pathway-colors {
+  font-family: var(--fm);
+  font-size: 6pt;
+  color: var(--muted);
+  margin-bottom: 0.1in;
+  letter-spacing: 0.04em;
+}
+.pathway-description {
+  font-family: var(--fb);
+  font-size: 8.2pt;
+  line-height: 1.58;
+  color: var(--black);
+  margin-bottom: 0.12in;
+}
+
+.traj-label {
+  font-family: var(--fm);
+  font-size: 5.5pt;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 0.04in;
+}
+.traj-type {
+  font-family: var(--fd);
+  font-size: 10pt;
+  color: var(--terra);
+  margin-bottom: 0.07in;
+}
+.traj-body {
+  font-family: var(--fb);
+  font-size: 7.5pt;
+  line-height: 1.6;
+  color: #2a2a2a;
+  margin-bottom: 0.12in;
+}
+
+.prompt-box {
+  border-left: 1.5pt solid var(--olive);
+  padding: 0.08in 0.1in;
+  background: rgba(92,107,58,0.04);
+  border-radius: 0 3pt 3pt 0;
+}
+.prompt-box p {
+  font-family: var(--fb);
+  font-style: italic;
+  font-size: 7pt;
+  line-height: 1.6;
+  color: var(--olive);
+}
+
+.img-placeholder {
+  width: 100%;
+  border: 0.5pt solid var(--border);
+  border-radius: 4pt;
+  background: var(--cream);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 4pt;
+}
+.img-placeholder span {
+  font-family: var(--fm);
+  font-size: 6pt;
+  color: var(--muted);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+/* ── WAVE READING PAGE ── */
+.wave-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.1in;
+  margin-top: 0.1in;
+}
+.wave-card {
+  border: 0.5pt solid var(--border);
+  border-radius: 4pt;
+  padding: 0.08in 0.09in;
+}
+.wave-card-label {
+  font-family: var(--fm);
+  font-size: 5.5pt;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--olive);
+  margin-bottom: 2pt;
+}
+.wave-card-title {
+  font-family: var(--fd);
+  font-size: 7.5pt;
+  color: var(--terra);
+  margin-bottom: 4pt;
+}
+.wave-card ul {
+  list-style: none;
+  font-family: var(--fb);
+  font-size: 6.5pt;
+  line-height: 1.55;
+  color: var(--muted);
+}
+.wave-card ul li::before { content: '→ '; color: var(--gold); }
+
+/* ── NETWORK TABLE ── */
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--fm);
+  font-size: 6pt;
+}
+.data-table th {
+  font-size: 5pt;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--olive);
+  border-bottom: 1pt solid var(--border);
+  padding: 3pt 4pt;
+  text-align: left;
+}
+.data-table td {
+  padding: 3pt 4pt;
+  border-bottom: 0.5pt solid var(--border);
+  color: #2a2a2a;
+  vertical-align: middle;
+}
+.swatch-sm {
+  display: inline-block;
+  width: 7pt; height: 7pt;
+  border-radius: 2pt;
+  vertical-align: middle;
+  margin-right: 3pt;
+  border: 0.5pt solid rgba(0,0,0,0.1);
+}
+.bar-cell { display: flex; align-items: center; gap: 3pt; }
+.bar-fill { height: 3pt; border-radius: 99pt; background: var(--olive); }
+
+/* ── KNOT STEPS ── */
+.steps-list { margin-top: 0.08in; display: flex; flex-direction: column; gap: 0.07in; }
+.step-row { display: grid; grid-template-columns: 0.22in 1fr; gap: 0.06in; }
+.step-num { font-family: var(--fm); font-size: 6pt; color: var(--gold); font-weight: 500; padding-top: 1pt; }
+.step-title { font-family: var(--fd); font-size: 7.5pt; color: var(--black); margin-bottom: 1pt; }
+.step-body { font-family: var(--fb); font-size: 6.5pt; line-height: 1.5; color: var(--muted); }
+
+/* ── COLOR WORLD LIST ── */
+.color-list { list-style: none; display: flex; flex-direction: column; gap: 0.04in; margin-top: 0.06in; }
+.color-row {
+  display: flex; align-items: flex-start; gap: 0.06in;
+  font-size: 7pt; line-height: 1.45; font-family: var(--fb);
+}
+.swatch {
+  flex-shrink: 0; width: 9pt; height: 9pt; border-radius: 2pt;
+  margin-top: 1pt; border: 0.5pt solid rgba(0,0,0,0.12);
+}
+
+/* ── TOC ── */
+.toc-entry {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 0.04in 0;
+  border-bottom: 0.5pt dotted var(--border);
+  font-family: var(--fb);
+  font-size: 7.5pt;
+  color: var(--black);
+}
+.toc-entry .pg {
+  font-family: var(--fm);
+  font-size: 6pt;
+  color: var(--muted);
+  letter-spacing: 0.06em;
+}
+.toc-section {
+  font-family: var(--fm);
+  font-size: 5.5pt;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--olive);
+  margin: 0.1in 0 0.04in;
+}
+
+/* ── BLOCKQUOTE ── */
+.pull-quote {
+  font-family: var(--fd);
+  font-style: italic;
+  font-size: 10pt;
+  line-height: 1.55;
+  color: var(--black);
+  border-top: 1pt solid var(--gold);
+  border-bottom: 1pt solid var(--gold);
+  padding: 0.1in 0;
+  margin: 0.12in 0;
+}
+
+/* ── WELCOME INTRO ── */
+.bib-entry {
+  font-family: var(--fb);
+  font-size: 6.5pt;
+  line-height: 1.6;
+  color: var(--muted);
+  padding-left: 0.1in;
+  border-left: 1pt solid var(--border);
+  margin-bottom: 0.04in;
+}
+
+/* ── PRINT ── */
+@page {
+  size: 11in 8.5in landscape;
+  margin: 0;
+}
+
+@media print {
+  body { background: none; }
+  .sheet {
+    margin: 0;
+    box-shadow: none;
+    page-break-after: always;
+    break-after: page;
+  }
+  .sheet::after { display: none; }
+  .screen-only { display: none; }
+}
+
+/* screen helper */
+.screen-only {
+  text-align: center;
+  font-family: var(--fb);
+  font-size: 11px;
+  color: #888;
+  padding: 0.3in 0 0.1in;
+  letter-spacing: 0.05em;
+}
+
+</style>
+</head>
+<body>
+
+<p class="screen-only">PHYSICAL MAGNETISM ZINE — hamburger-fold vertical booklet · print landscape · fold on center line</p>
+
+<!-- ════════════════════════════════════════════════
+     SHEET 1 — COVER (right) + BACK / TABLE OF CONTENTS (left)
+     In a 4-page hamburger fold: outside = cover + back
+═══════════════════════════════════════════════════ -->
+<div class="sheet">
+
+  <!-- LEFT PANEL = BACK OF ZINE -->
+  <div class="panel panel-back">
+    <div>
+      <div class="section-label">Physical Magnetism</div>
+      <div class="page-title" style="font-size:16pt; margin-bottom:0.08in;">Table of Contents</div>
+
+      <div class="toc-section">Introduction</div>
+      <div class="toc-entry"><span>Welcome &amp; Framework</span><span class="pg">02</span></div>
+      <div class="toc-entry"><span>Epstein's Color World</span><span class="pg">03</span></div>
+      <div class="toc-entry"><span>Alchemize with Color / Wave Reading</span><span class="pg">04</span></div>
+      <div class="toc-entry"><span>Setting the Womb: The Knot Container</span><span class="pg">05</span></div>
+
+      <div class="toc-section">News Articles — January 30, 2026</div>
+      <div class="toc-entry"><span>MTG / New Yorker</span><span class="pg">06</span></div>
+      <div class="toc-entry"><span>Bannon / Jacobin</span><span class="pg">07</span></div>
+      <div class="toc-entry"><span>David Brooks / The Intercept</span><span class="pg">08</span></div>
+      <div class="toc-entry"><span>TikTok / NPR</span><span class="pg">09</span></div>
+      <div class="toc-entry"><span>Todd Blanche / ProPublica</span><span class="pg">10</span></div>
+      <div class="toc-entry"><span>DOJ Files / CNN</span><span class="pg">11</span></div>
+      <div class="toc-entry"><span>Lord Mandelson / BBC</span><span class="pg">12</span></div>
+      <div class="toc-entry"><span>TikTok Censorship / Newsweek</span><span class="pg">13</span></div>
+      <div class="toc-entry"><span>Mar-a-Lago Spa / Forbes</span><span class="pg">14</span></div>
+      <div class="toc-entry"><span>Clinton Contempt / Fox News</span><span class="pg">15</span></div>
+      <div class="toc-entry"><span>Little League / The Examiner</span><span class="pg">16</span></div>
+      <div class="toc-entry"><span>Josh Shapiro / Reason</span><span class="pg">17</span></div>
+      <div class="toc-entry"><span>Files Scrubbed / Daily Mail</span><span class="pg">18</span></div>
+      <div class="toc-entry"><span>Ghislaine Maxwell / Post Millennial</span><span class="pg">19</span></div>
+      <div class="toc-entry"><span>Larry Summers / Spectator</span><span class="pg">20</span></div>
+
+      <div class="toc-section">Pathway Readings</div>
+      <div class="toc-entry"><span>Plot · Knot</span><span class="pg">21</span></div>
+      <div class="toc-entry"><span>Pain · Practical</span><span class="pg">22</span></div>
+      <div class="toc-entry"><span>Spiritual · Prayer</span><span class="pg">23</span></div>
+      <div class="toc-entry"><span>Sad · Precise</span><span class="pg">24</span></div>
+      <div class="toc-entry"><span>Feminine · Masculine</span><span class="pg">25</span></div>
+      <div class="toc-entry"><span>Direct + Optimized Circuitry</span><span class="pg">26</span></div>
+    </div>
+
+    <div>
+      <div style="height:0.5pt; background:var(--border); margin-bottom:0.1in;"></div>
+      <div class="color-strip">
+        <span style="background:rgb(170,170,170);"></span>
+        <span style="background:rgb(250,0,90);"></span>
+        <span style="background:rgb(250,200,0);"></span>
+        <span style="background:rgb(250,180,120);"></span>
+        <span style="background:rgb(250,110,0);"></span>
+        <span style="background:rgb(255,255,255); border:0.5pt solid #ddd;"></span>
+        <span style="background:rgb(0,0,255);"></span>
+        <span style="background:rgb(0,200,0);"></span>
+        <span style="background:rgb(255,0,0);"></span>
+        <span style="background:rgb(0,0,0);"></span>
+        <span style="background:rgb(180,50,0);"></span>
+        <span style="background:rgb(255,220,0);"></span>
+        <span style="background:rgb(180,50,255);"></span>
+      </div>
+      <div class="mono-text" style="margin-top:0.06in;">© Physical Magnetism · daniellegauthier2028@u.northwestern.edu<br>daniellegauthier.github.io/physicalmagnetism.html</div>
+    </div>
+  </div>
+
+  <!-- RIGHT PANEL = COVER -->
+  <div class="panel panel-cover">
+    <div>
+      <div class="cover-eyebrow">Physical Magnetism · Zine No. 01</div>
+      <div class="cover-rule"></div>
+      <div class="cover-title">Epstein's<br><em>Color</em><br>World</div>
+      <div class="cover-sub">Semantic Color Math for Decisions &amp; Systems<br>NLP · Cosine Similarity · GNH Wellness Indicators<br>13-Color Pathway Readings · Wave Mechanics</div>
+    </div>
+
+    <div>
+      <div class="color-strip" style="margin-bottom:0.14in;">
+        <span style="background:rgb(170,170,170);"></span>
+        <span style="background:rgb(250,0,90);"></span>
+        <span style="background:rgb(250,200,0);"></span>
+        <span style="background:rgb(250,180,120);"></span>
+        <span style="background:rgb(250,110,0);"></span>
+        <span style="background:rgb(255,255,255); border:0.5pt solid rgba(255,255,255,0.3);"></span>
+        <span style="background:rgb(0,0,255);"></span>
+        <span style="background:rgb(0,200,0);"></span>
+        <span style="background:rgb(255,0,0);"></span>
+        <span style="background:rgb(0,0,0); border:0.5pt solid rgba(255,255,255,0.15);"></span>
+        <span style="background:rgb(180,50,0);"></span>
+        <span style="background:rgb(255,220,0);"></span>
+        <span style="background:rgb(180,50,255);"></span>
+      </div>
+      <div class="cover-bottom">
+        <div class="cover-byline">Danielle Gauthier · Northwestern University</div>
+        <div class="cover-date">Friday, January 30, 2026 · 15 Articles</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+
+<!-- ════════════════════════════════════════════════
+     SHEET 2 — WELCOME (left) + COLOR WORLD (right)
+═══════════════════════════════════════════════════ -->
+<div class="sheet">
+
+  <!-- LEFT: WELCOME -->
+  <div class="panel panel-white">
+    <div class="section-label">02 · Welcome</div>
+    <div class="page-title" style="font-size:17pt;">Welcome</div>
+    <div class="body-text" style="font-size:7.2pt;">
+      <p>Risky behavior is framed as individual failure. Parents are expected to emotionally support their children with full financial obligations, with 46% of all new income from global economic growth since 1980 going to the richest 5%. We never catch up in our rest banks once we make it past childhood because care is an unrewarded commodity.</p>
+      <p>Deficit narratives sell. People would rather engage with what they know and like. We need designs that teach, rather than simply label.</p>
+      <p>People repeat lines as expected instead of creating genuine feedback. Even the people with the most power aren't free in their bodies. My family has achieved social mobility to the top 1% through immigration from Hispañola with education.</p>
+      <p>We are so constricted in our decisions with current social striations that our news is beginning to show wilder stories every day. Instead of teaching healthy decisions, current algorithms replicate all of our behaviors. Social stigmas are embedded in design from sourcing our histories.</p>
+      <p>Bucket sorting offers a linear model for time. We sort based on attracting what we like, and not what we learn from. Sorting allows for data intimacy.</p>
+      <p>Deterministic models of story forms that shape healing can preconfigure a pathway when data is missing using apophenia. Once the physical momentum is determined through one conformal metaphor, it is preserved through changed variables in the same category of sentiment, as determined by color.</p>
+      <p>Just like spaces prescribe how we exist within them, contexts in stories carry when data variables change. Different cultures are partial to different story maps. Color sorting with story forms allows for transversal over a spatial map of sentiment to verify message with meaning.</p>
+      <p>Mobility through structural boundaries becomes unleashed. Sorting with 13 colors applies faith to action.</p>
+      <p>Self embrace from nullifying harm by enforcing consent is the way we swim in water. Emitting and interpreting echoes, like a whale's echolocation, can help with navigational sensing.</p>
+      <p>Subjectivity is always contained in objectivity because subjects can never be removed from their objects. All color interpretations are valid, and meaningful. There is a circular gradient of meaning for complimentary opposites.</p>
+      <p>Sorting with 13 colors rejects the null hypothesis. By removing precision on labels, access becomes inclusive. Our perspectives become revealed by our choices in labeling, rather than projecting forward.</p>
+      <p>Data intimacy through play with color bucket sorting can increase access to care. I dedicate and offer this work to stewards of land and body safety. A prayer for co-liberation.</p>
+    </div>
+    <div style="margin-top:auto; padding-top:0.1in; border-top:0.5pt solid var(--border);">
+      <div class="section-label" style="margin-bottom:0.05in;">Bibliography</div>
+      <div class="bib-entry">Benjamin, Ruha. 2019. <em>Race after Technology.</em> Polity.</div>
+      <div class="bib-entry">Boyd, Danah. 2014. <em>It's Complicated.</em> Yale University Press.</div>
+      <div class="bib-entry">Christian, Brian &amp; Griffiths, Tom. 2016. <em>Algorithms to Live by.</em> Henry Holt.</div>
+      <div class="bib-entry">Costanza-Chock, Sasha. 2020. <em>Design Justice.</em> MIT Press.</div>
+      <div class="bib-entry">Federici, Silvia. 2004. <em>Caliban and the Witch.</em> Autonomedia.</div>
+      <div class="bib-entry">Hickel, Jason. 2020. <em>Less Is More.</em> Penguin Random House.</div>
+      <div class="bib-entry">Ingersoll, Karin Amimoto. 2016. <em>Waves of Knowing.</em> Duke University Press.</div>
+      <div class="bib-entry">Klein, Lauren F &amp; D'Ignazio, C. 2020. <em>Data Feminism.</em> MIT Press.</div>
+      <div class="bib-entry">Noble, Safiya Umoja. 2018. <em>Algorithms of Oppression.</em> NYU Press.</div>
+      <div class="bib-entry">Zohar, Danah. 1989. <em>The Quantum Self.</em> Bloomsbury.</div>
+      <div class="bib-entry">Zuckerman, Ethan. 2013. <em>Digital Cosmopolitans.</em> W.W. Norton.</div>
+    </div>
+  </div>
+
+  <!-- RIGHT: COLOR WORLD SUMMARY -->
+  <div class="panel panel-white" style="background:var(--cream);">
+    <div class="section-label">03 · Epstein's Color World</div>
+    <div class="page-title" style="font-size:16pt;">Epstein's Color World</div>
+    <div class="mono-text" style="margin-bottom:0.1in;">Friday, January 30, 2026 · 15 articles · most-common categorical + synthesized narrative</div>
+
+    <div class="pull-quote">"To transform our collective future, we must first acknowledge the determinism of social construction. The personal politics of identity and community are intertwined, as reflected in the experiences of minority citizens, particularly those with at-risk health."</div>
+
+    <div class="body-text" style="font-size:7pt; margin-bottom:0.1in;">
+      <p>The body experience of health impact demands a localized change, which can only be achieved through public support. By addressing the resource extraction that depletes our social capital, we can preserve the symbol of resistance and create a new social innovation.</p>
+      <p>To end the origin of community-led efforts being derailed by political resistance, we must first identify and rectify the leak of information and resources. This requires an adaptation to the changing landscape, fueled by hope and guided by transitional principles.</p>
+      <p>Ultimately, our policy critique must prioritize the well-being of those most affected, ensuring that public support is mobilized to address the obstacles of social depletion. Let us work together to create a more just and equitable world, grounded in truth and moving forward with purpose.</p>
+    </div>
+
+    <div class="section-label">13-Color Semantic Buckets</div>
+    <ul class="color-list">
+      <li class="color-row"><span class="swatch" style="background:rgb(170,170,170);"></span><strong>grey</strong> — cover, lose, precary → political resistance</li>
+      <li class="color-row"><span class="swatch" style="background:rgb(250,0,90);"></span><strong>pink</strong> — category, place, ambitious → social innovation</li>
+      <li class="color-row"><span class="swatch" style="background:rgb(250,200,0);"></span><strong>gold</strong> — pull, hide, technocracy lotiform → resistance</li>
+      <li class="color-row"><span class="swatch" style="background:rgb(250,180,120);"></span><strong>nude</strong> — approach, jump, unextenuable → external validation</li>
+      <li class="color-row"><span class="swatch" style="background:rgb(250,110,0);"></span><strong>orange</strong> — hit, drop, blurry artesian → localized change</li>
+      <li class="color-row"><span class="swatch" style="background:rgb(215,215,205); border:0.5pt solid #bbb;"></span><strong>white</strong> — hope, block, analeptical → free speech</li>
+      <li class="color-row"><span class="swatch" style="background:rgb(0,0,255);"></span><strong>blue</strong> — collect, glean, photopathy → adaptation</li>
+      <li class="color-row"><span class="swatch" style="background:rgb(0,200,0);"></span><strong>green</strong> — transition, grow, bulbous heroic → transition</li>
+      <li class="color-row"><span class="swatch" style="background:rgb(255,0,0);"></span><strong>red</strong> — limit, cry, apophantic → resource extraction</li>
+      <li class="color-row"><span class="swatch" style="background:rgb(0,0,0);"></span><strong>black</strong> — order, scale, swabble → community</li>
+      <li class="color-row"><span class="swatch" style="background:rgb(180,50,0);"></span><strong>brown</strong> — learn, shrink, notable submissive → social empowerment</li>
+      <li class="color-row"><span class="swatch" style="background:rgb(255,220,0);"></span><strong>yellow</strong> — structure, array, redressible authority → public support</li>
+      <li class="color-row"><span class="swatch" style="background:rgb(180,50,255);"></span><strong>purple</strong> — free, cheer, brave → resistance</li>
+    </ul>
+  </div>
+
+</div>
+
+
+<!-- ════════════════════════════════════════════════
+     SHEET 3 — WAVE READING (left) + KNOT CONTAINER (right)
+═══════════════════════════════════════════════════ -->
+<div class="sheet">
+
+  <!-- LEFT: ALCHEMIZE + WAVE READING -->
+  <div class="panel panel-white">
+    <div class="section-label">04 · Alchemize with Color</div>
+    <div class="page-title" style="font-size:16pt;">Alchemize with Color</div>
+    <div class="body-text" style="font-size:7pt; margin-bottom:0.1in;">
+      <p>To use this tabular, find the color meaning you want to attract or release. To <strong>attract</strong> a color, find sequences with high Gross National Happiness scores for that color — the longest bars of the matching color. To <strong>repel</strong> a color, find sequences with the lowest GNH scores — the shortest bars. The power of metaphor and story, mixed with the containment of conformal shapes, allows for controlled, bottom-up navigation.</p>
+      <p>Each RGB array within a sequence is treated as a discrete signal. When converted into complex momentum, it behaves like a wave packet:</p>
+    </div>
+
+    <div class="section-label">Reading the Line Graphs</div>
+    <div class="wave-grid">
+      <div class="wave-card">
+        <div class="wave-card-label">Component A</div>
+        <div class="wave-card-title">Real Part → Standing / Traveling Wave</div>
+        <ul>
+          <li>Represents the in-phase oscillation</li>
+          <li>Smooth variation → coherent wave</li>
+          <li>Sharp sign changes → reflections or boundaries</li>
+          <li>Positive → forward propagation; negative → reverse wave</li>
+          <li>Symmetry → standing wave behavior</li>
+        </ul>
+      </div>
+      <div class="wave-card">
+        <div class="wave-card-label">Component B</div>
+        <div class="wave-card-title">Imaginary Part → Phase-Shifted Wave</div>
+        <ul>
+          <li>Represents the 90° shifted component</li>
+          <li>Strong oscillations → rotating or spiral wave motion</li>
+          <li>Zero crossings → resonance nodes</li>
+          <li>Large swings → phase instability or mode switching</li>
+        </ul>
+      </div>
+      <div class="wave-card">
+        <div class="wave-card-label">Component C</div>
+        <div class="wave-card-title">Magnitude → Wave Energy Womb</div>
+        <ul>
+          <li>Flat magnitude → energy-conserving wave</li>
+          <li>Spikes → localized excitation</li>
+          <li>Drops → damping or destructive interference</li>
+          <li>Nearly constant → stable wave packet (no energy loss, only phase rotation)</li>
+        </ul>
+      </div>
+      <div class="wave-card">
+        <div class="wave-card-label">Component D — most important</div>
+        <div class="wave-card-title">Phase → Wave Direction &amp; Interference</div>
+        <ul>
+          <li>Linear change → traveling wave</li>
+          <li>Sudden jumps → phase / mode change</li>
+          <li>Oscillatory → standing or beating wave</li>
+          <li>Crossing ±π → wave inversion</li>
+        </ul>
+      </div>
+      <div class="wave-card" style="grid-column: span 2;">
+        <div class="wave-card-label">Component E</div>
+        <div class="wave-card-title">Trajectory Plot → Wave Path in Space</div>
+        <ul>
+          <li>Points → wave samples; lines → propagation path; color gradient → time evolution</li>
+          <li>Straight line → uniform propagation; zig-zag → interference or reflection</li>
+          <li>Closed loops → standing wave or resonance cavity</li>
+          <li>Knots / crossings → topological wave modes</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT: KNOT CONTAINER -->
+  <div class="panel panel-white" style="background:var(--cream);">
+    <div class="section-label">05 · Setting the Womb</div>
+    <div class="page-title" style="font-size:14pt;">Setting the Womb:<br>The Knot Container</div>
+    <div class="body-text" style="font-size:7pt; margin-bottom:0.1in;">
+      <p>This process is not therapy, diagnosis, or performance. It is a sovereign space where shadow is allowed to exist long enough to reorganize itself, held by color, sequence, body, and consent.</p>
+    </div>
+    <div class="steps-list">
+      <div class="step-row">
+        <div class="step-num">00</div>
+        <div><div class="step-title">Land &amp; Lineage Acknowledgement</div><div class="step-body">Begin by orienting to place and inheritance — a land acknowledgement honoring the ancestral and ecological context of where the work is taking place, and an intentional lineage acknowledgement informed by the Color World above. This step establishes that the work is held within a wider field of relation.</div></div>
+      </div>
+      <div class="step-row">
+        <div class="step-num">01</div>
+        <div><div class="step-title">Identify the Block</div><div class="step-body">Name, do not solve, the current block — emotional stagnation, repetitive relational patterns, somatic tension, or cognitive loops. Locate where the Knot has formed, without forcing interpretation or self-correction.</div></div>
+      </div>
+      <div class="step-row">
+        <div class="step-num">02</div>
+        <div><div class="step-title">Reading</div><div class="step-body">A short, curated reading to attune the nervous system and symbolic mind. Functions as a tuning fork for shared resonance, a permission slip to move beyond linear logic, a softening of internal surveillance. Not instructional — atmospheric.</div></div>
+      </div>
+      <div class="step-row">
+        <div class="step-num">03</div>
+        <div><div class="step-title">Guided Visualization &amp; Meditation</div><div class="step-body">Establishes internal safety and orientation. Activates somatic awareness before analysis. Prepares the psyche to encounter shadow without fragmentation. The aim is not transcendence, but presence.</div></div>
+      </div>
+      <div class="step-row">
+        <div class="step-num">04</div>
+        <div><div class="step-title">Knot Sequence</div><div class="step-body">The core womb structure. Holds contradiction without collapse. Allows intensity to arise alongside boundaries. Prevents premature meaning-making. Supports participants in staying with what is entangled, rather than bypassing it.</div></div>
+      </div>
+      <div class="step-row">
+        <div class="step-num">05</div>
+        <div><div class="step-title">Plot Sequence</div><div class="step-body">Traces how the block came into being — examining how value, attachment, or survival strategies shaped the story; where influence or adaptation altered integrity; how movement began, stalled, or diverted. Restores narrative continuity without blame.</div></div>
+      </div>
+      <div class="step-row">
+        <div class="step-num">06</div>
+        <div><div class="step-title">Additional Sequences (As Needed)</div><div class="step-body">Pain, Sad, Fem, Direct, etc. introduced selectively depending on what colors / GNH indicators the material calls for. Not additive — responsive, offering specific pathways for different complimentary oppositions.</div></div>
+      </div>
+      <div class="step-row">
+        <div class="step-num">07</div>
+        <div><div class="step-title">Physical Trajectory Reflection</div><div class="step-body">Reflect on how the work moved through the body: shifts in posture, breath, or tension; moments of contraction or expansion; where clarity felt embodied rather than conceptual. The body is treated as data, not metaphor.</div></div>
+      </div>
+      <div class="step-row">
+        <div class="step-num">08</div>
+        <div><div class="step-title">Discussion &amp; Shedding</div><div class="step-body">Participants invited to share selectively, with emphasis on accountability rather than confession, witnessing rather than fixing, naming what is being released and returned.</div></div>
+      </div>
+      <div class="step-row">
+        <div class="step-num">09</div>
+        <div><div class="step-title">Closing</div><div class="step-body">The container is closed intentionally — a brief grounding statement, a return to land and lineage, a reminder that integration continues beyond the session. The womb is sealed, not to trap, but to protect what has been created.</div></div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+
+<!-- ════════════════════════════════════════════════
+     SHEETS 4–18: NEWS ARTICLES (one per panel, paired)
+═══════════════════════════════════════════════════ -->
+
+<!-- Helper macro — each sheet = 2 articles side by side -->
+
+<!-- SHEET 4: Articles 1+2 -->
+<div class="sheet">
+  <div class="panel panel-white">
+    <div class="section-label">06 · Article — New Yorker · Left</div>
+    <div class="article-source">Left · businesses · community group</div>
+    <div class="article-url">newyorker.com/magazine/2026/01/12/marjorie-taylor-greenes-big-breakup</div>
+    <div class="article-quote">"Rep. Marjorie Taylor Greene, a Republican from Georgia, has become a lightning rod for conservatives. The MAGA congresswoman's initials have become as recognizable as those of the late liberal Supreme Court Justice Ruth Bader Ginsburg."</div>
+    <div class="article-divider"></div>
+    <div class="kv-grid">
+      <div class="kv-item"><div class="kv-key">Body Experience</div><div class="kv-val">mental strain</div></div>
+      <div class="kv-item"><div class="kv-key">Intention</div><div class="kv-val">adaptation</div></div>
+      <div class="kv-item"><div class="kv-key">Race</div><div class="kv-val">minority</div></div>
+      <div class="kv-item"><div class="kv-key">Gender</div><div class="kv-val">women</div></div>
+      <div class="kv-item"><div class="kv-key">Occupation</div><div class="kv-val">policy makers</div></div>
+      <div class="kv-item"><div class="kv-key">Health</div><div class="kv-val">at risk</div></div>
+      <div class="kv-item"><div class="kv-key">Autonomy</div><div class="kv-val">externally imposed</div></div>
+      <div class="kv-item"><div class="kv-key">Impact</div><div class="kv-val">symbolic change</div></div>
+      <div class="kv-item"><div class="kv-key">Leak</div><div class="kv-val">regulatory failure</div></div>
+      <div class="kv-item"><div class="kv-key">Obstacles</div><div class="kv-val">political resistance</div></div>
+      <div class="kv-item"><div class="kv-key">Ritual</div><div class="kv-val">adaptation</div></div>
+      <div class="kv-item"><div class="kv-key">Depict</div><div class="kv-val">transitional</div></div>
+    </div>
+    <div class="tag-row">
+      <span class="tag tag-olive">social innovation</span>
+      <span class="tag tag-olive">resistance</span>
+      <span class="tag tag-terra">social depletion</span>
+      <span class="tag">public support</span>
+      <span class="tag">community-led</span>
+    </div>
+    <div style="margin-top:auto; padding-top:0.1in;">
+      <div class="mono-text" style="font-size:6pt; border-left:1pt solid var(--gold); padding-left:0.08in;">"She has called Democrats 'the party of pedophiles,' and, as some Americans fretted over the possibility of an impending civil war, she demanded a 'national divorce.'"</div>
+    </div>
+  </div>
+  <div class="panel panel-white" style="background:var(--cream);">
+    <div class="section-label">07 · Article — Jacobin · Left</div>
+    <div class="article-source">Left · citizens · community group</div>
+    <div class="article-url">jacobin.com/2025/12/epstein-bannon-trump-elite-populism</div>
+    <div class="article-quote">"Newly released documents show that Steve Bannon's supposedly working-class rebellion against a decadent elite had as a sounding board the most notoriously decadent and criminal elite of all: Jeffrey Epstein."</div>
+    <div class="article-divider"></div>
+    <div class="kv-grid">
+      <div class="kv-item"><div class="kv-key">Body Experience</div><div class="kv-val">labor stress</div></div>
+      <div class="kv-item"><div class="kv-key">Intention</div><div class="kv-val">adaptation</div></div>
+      <div class="kv-item"><div class="kv-key">Race</div><div class="kv-val">indigenous</div></div>
+      <div class="kv-item"><div class="kv-key">Gender</div><div class="kv-val">men</div></div>
+      <div class="kv-item"><div class="kv-key">Occupation</div><div class="kv-val">community leaders</div></div>
+      <div class="kv-item"><div class="kv-key">Health</div><div class="kv-val">at risk</div></div>
+      <div class="kv-item"><div class="kv-key">Autonomy</div><div class="kv-val">self-determined</div></div>
+      <div class="kv-item"><div class="kv-key">Impact</div><div class="kv-val">symbolic change</div></div>
+      <div class="kv-item"><div class="kv-key">Leak</div><div class="kv-val">corruption</div></div>
+      <div class="kv-item"><div class="kv-key">Obstacles</div><div class="kv-val">political resistance</div></div>
+      <div class="kv-item"><div class="kv-key">Origin</div><div class="kv-val">colonial</div></div>
+      <div class="kv-item"><div class="kv-key">Depict</div><div class="kv-val">transitional</div></div>
+    </div>
+    <div class="tag-row">
+      <span class="tag tag-olive">resistance</span>
+      <span class="tag tag-olive">social innovation</span>
+      <span class="tag tag-terra">social depletion</span>
+      <span class="tag">public support</span>
+    </div>
+    <div style="margin-top:auto; padding-top:0.1in;">
+      <div class="mono-text" style="font-size:6pt; border-left:1pt solid var(--gold); padding-left:0.08in;">Hope: "Newly released documents show that Steve Bannon's supposedly working-class rebellion against a decadent elite had as a sounding board the most notoriously decadent and criminal elite of all: Jeffrey Epstein."</div>
+    </div>
+  </div>
+</div>
+
+<!-- SHEET 5: Articles 3+4 -->
+<div class="sheet">
+  <div class="panel panel-white">
+    <div class="section-label">08 · Article — The Intercept · Left</div>
+    <div class="article-source">Left · businesses · community group</div>
+    <div class="article-url">theintercept.com/2025/12/18/david-brooks-jeffrey-epstein-photos/</div>
+    <div class="article-quote">"New York Times columnist David Brooks attended a dinner with Jeffrey Epstein in 2011. Photos of Brooks at the event emerged as part of a release of documents by the House Committee on Oversight. A Times spokesperson said Brooks attended the dinner in the normal course of journalistic duties."</div>
+    <div class="article-divider"></div>
+    <div class="kv-grid">
+      <div class="kv-item"><div class="kv-key">Body Experience</div><div class="kv-val">health impact</div></div>
+      <div class="kv-item"><div class="kv-key">Intention</div><div class="kv-val">resistance</div></div>
+      <div class="kv-item"><div class="kv-key">Race</div><div class="kv-val">unspecified</div></div>
+      <div class="kv-item"><div class="kv-key">Gender</div><div class="kv-val">unspecified</div></div>
+      <div class="kv-item"><div class="kv-key">Occupation</div><div class="kv-val">community leaders</div></div>
+      <div class="kv-item"><div class="kv-key">Health</div><div class="kv-val">vulnerable</div></div>
+      <div class="kv-item"><div class="kv-key">Autonomy</div><div class="kv-val">externally imposed</div></div>
+      <div class="kv-item"><div class="kv-key">Impact</div><div class="kv-val">symbolic change</div></div>
+      <div class="kv-item"><div class="kv-key">Leak</div><div class="kv-val">resource extraction</div></div>
+      <div class="kv-item"><div class="kv-key">Obstacles</div><div class="kv-val">political resistance</div></div>
+      <div class="kv-item"><div class="kv-key">Ritual</div><div class="kv-val">adaptation</div></div>
+      <div class="kv-item"><div class="kv-key">Depict</div><div class="kv-val">transitional</div></div>
+    </div>
+    <div class="tag-row">
+      <span class="tag tag-olive">resistance</span>
+      <span class="tag tag-olive">social innovation</span>
+      <span class="tag tag-terra">social depletion</span>
+      <span class="tag">community-led</span>
+    </div>
+    <div style="margin-top:auto; padding-top:0.1in;">
+      <div class="mono-text" style="font-size:6pt; border-left:1pt solid var(--gold); padding-left:0.08in;">Future: "In November, Brooks dismissed the Epstein story as an extension of QAnon."</div>
+    </div>
+  </div>
+  <div class="panel panel-white" style="background:var(--cream);">
+    <div class="section-label">09 · Article — NPR · Lean Left</div>
+    <div class="article-source">Lean Left · citizens · community group</div>
+    <div class="article-url">npr.org/2026/01/27/nx-s1-5689104/tiktok-epstein-direct-messages</div>
+    <div class="article-quote">"TikTok officials say they are looking into why many users have been unable to send the word 'Epstein' in direct messages. California Gov. Gavin Newsom has announced an inquiry into the matter."</div>
+    <div class="article-divider"></div>
+    <div class="kv-grid">
+      <div class="kv-item"><div class="kv-key">Body Experience</div><div class="kv-val">health impact</div></div>
+      <div class="kv-item"><div class="kv-key">Intention</div><div class="kv-val">resistance</div></div>
+      <div class="kv-item"><div class="kv-key">Race</div><div class="kv-val">unspecified</div></div>
+      <div class="kv-item"><div class="kv-key">Gender</div><div class="kv-val">unspecified</div></div>
+      <div class="kv-item"><div class="kv-key">Education</div><div class="kv-val">technical expertise</div></div>
+      <div class="kv-item"><div class="kv-key">Health</div><div class="kv-val">at risk</div></div>
+      <div class="kv-item"><div class="kv-key">Autonomy</div><div class="kv-val">self-determined</div></div>
+      <div class="kv-item"><div class="kv-key">Impact</div><div class="kv-val">localized change</div></div>
+      <div class="kv-item"><div class="kv-key">Leak</div><div class="kv-val">regulatory failure</div></div>
+      <div class="kv-item"><div class="kv-key">Obstacles</div><div class="kv-val">political resistance</div></div>
+      <div class="kv-item"><div class="kv-key">Support</div><div class="kv-val">grassroots</div></div>
+      <div class="kv-item"><div class="kv-key">Depict</div><div class="kv-val">transitional</div></div>
+    </div>
+    <div class="tag-row">
+      <span class="tag tag-olive">resistance</span>
+      <span class="tag tag-olive">social innovation</span>
+      <span class="tag tag-terra">social depletion</span>
+      <span class="tag">grassroots support</span>
+    </div>
+    <div style="margin-top:auto; padding-top:0.1in;">
+      <div class="mono-text" style="font-size:6pt; border-left:1pt solid var(--gold); padding-left:0.08in;">Hope: "TikTok is investigating why some users can't send the word 'Epstein' in direct messages. California Gov. Gavin Newsom announced an inquiry into the matter Monday."</div>
+    </div>
+  </div>
+</div>
+
+<!-- SHEET 6: Articles 5+6 -->
+<div class="sheet">
+  <div class="panel panel-white">
+    <div class="section-label">10 · Article — ProPublica · Lean Left</div>
+    <div class="article-source">Lean Left · citizens · community group</div>
+    <div class="article-url">propublica.org/article/todd-blanche-complaint-conflict-of-interest</div>
+    <div class="article-quote">"Todd Blanche owned at least $159,000 worth of crypto-related assets when he ordered an end to investigations into crypto companies, dealers and exchanges. Blanche, the deputy attorney general, issued the order in an April memo in which he also eliminated an enforcement team dedicated to looking..."</div>
+    <div class="article-divider"></div>
+    <div class="kv-grid">
+      <div class="kv-item"><div class="kv-key">Body Experience</div><div class="kv-val">health impact</div></div>
+      <div class="kv-item"><div class="kv-key">Intention</div><div class="kv-val">resistance</div></div>
+      <div class="kv-item"><div class="kv-key">Race</div><div class="kv-val">indigenous</div></div>
+      <div class="kv-item"><div class="kv-key">Education</div><div class="kv-val">formal education</div></div>
+      <div class="kv-item"><div class="kv-key">Occupation</div><div class="kv-val">policy makers</div></div>
+      <div class="kv-item"><div class="kv-key">Health</div><div class="kv-val">at risk</div></div>
+      <div class="kv-item"><div class="kv-key">Autonomy</div><div class="kv-val">self-determined</div></div>
+      <div class="kv-item"><div class="kv-key">Impact</div><div class="kv-val">localized change</div></div>
+      <div class="kv-item"><div class="kv-key">Leak</div><div class="kv-val">corruption</div></div>
+      <div class="kv-item"><div class="kv-key">Obstacles</div><div class="kv-val">cultural barriers</div></div>
+      <div class="kv-item"><div class="kv-key">Depletion</div><div class="kv-val">economic depletion</div></div>
+      <div class="kv-item"><div class="kv-key">Depict</div><div class="kv-val">resilient</div></div>
+    </div>
+    <div class="tag-row">
+      <span class="tag tag-olive">resistance</span>
+      <span class="tag tag-terra">economic depletion</span>
+      <span class="tag">corruption</span>
+      <span class="tag">public support</span>
+    </div>
+    <div style="margin-top:auto; padding-top:0.1in;">
+      <div class="mono-text" style="font-size:6pt; border-left:1pt solid var(--gold); padding-left:0.08in;">Future: "...he also eliminated an enforcement team dedicated to looking for Crypto-related fraud."</div>
+    </div>
+  </div>
+  <div class="panel panel-white" style="background:var(--cream);">
+    <div class="section-label">11 · Article — CNN · Lean Left</div>
+    <div class="article-source">Lean Left · governments · government</div>
+    <div class="article-url">cnn.com/2026/01/28/politics/justice-department-release-epstein-files-soon</div>
+    <div class="article-quote">"Attorney General Pam Bondi, Deputy Attorney General Todd Blanche and US Attorney for the Southern District of New York Jay Clayton told two federal judges the department could not 'provide a specific date.' The update comes as the Justice Department faces enormous pressure to release all of its files."</div>
+    <div class="article-divider"></div>
+    <div class="kv-grid">
+      <div class="kv-item"><div class="kv-key">Body Experience</div><div class="kv-val">labor stress</div></div>
+      <div class="kv-item"><div class="kv-key">Intention</div><div class="kv-val">resistance</div></div>
+      <div class="kv-item"><div class="kv-key">Race</div><div class="kv-val">minority</div></div>
+      <div class="kv-item"><div class="kv-key">Occupation</div><div class="kv-val">policy makers</div></div>
+      <div class="kv-item"><div class="kv-key">Health</div><div class="kv-val">protected</div></div>
+      <div class="kv-item"><div class="kv-key">Autonomy</div><div class="kv-val">externally imposed</div></div>
+      <div class="kv-item"><div class="kv-key">Symbol</div><div class="kv-val">progress</div></div>
+      <div class="kv-item"><div class="kv-key">Impact</div><div class="kv-val">localized change</div></div>
+      <div class="kv-item"><div class="kv-key">Origin</div><div class="kv-val">state-led</div></div>
+      <div class="kv-item"><div class="kv-key">Leak</div><div class="kv-val">resource extraction</div></div>
+      <div class="kv-item"><div class="kv-key">Ritual</div><div class="kv-val">adaptation</div></div>
+      <div class="kv-item"><div class="kv-key">Depict</div><div class="kv-val">transitional</div></div>
+    </div>
+    <div class="tag-row">
+      <span class="tag tag-olive">progress</span>
+      <span class="tag tag-terra">social depletion</span>
+      <span class="tag">state-led</span>
+      <span class="tag">public support</span>
+    </div>
+    <div style="margin-top:auto; padding-top:0.1in;">
+      <div class="mono-text" style="font-size:6pt; border-left:1pt solid var(--gold); padding-left:0.08in;">Future: "Congress passed a law in November — with near-unanimous support — giving the department a December 19, 2025, deadline to do so."</div>
+    </div>
+  </div>
+</div>
+
+<!-- SHEET 7: Articles 7+8 -->
+<div class="sheet">
+  <div class="panel panel-white">
+    <div class="section-label">12 · Article — BBC · Center</div>
+    <div class="article-source">Center · citizens · government</div>
+    <div class="article-url">bbc.com/news/articles/ce9yv73klx5o</div>
+    <div class="article-quote">"Lord Mandelson apologises to victims of paedophile Jeffrey Epstein. Former cabinet minister maintains friendship with late financier. Mandelson was sacked as UK ambassador to the US in September last year."</div>
+    <div class="article-divider"></div>
+    <div class="kv-grid">
+      <div class="kv-item"><div class="kv-key">Body Experience</div><div class="kv-val">health impact</div></div>
+      <div class="kv-item"><div class="kv-key">Intention</div><div class="kv-val">resistance</div></div>
+      <div class="kv-item"><div class="kv-key">Race</div><div class="kv-val">global north</div></div>
+      <div class="kv-item"><div class="kv-key">Gender</div><div class="kv-val">women</div></div>
+      <div class="kv-item"><div class="kv-key">Occupation</div><div class="kv-val">policy makers</div></div>
+      <div class="kv-item"><div class="kv-key">Health</div><div class="kv-val">stable</div></div>
+      <div class="kv-item"><div class="kv-key">Autonomy</div><div class="kv-val">self-determined</div></div>
+      <div class="kv-item"><div class="kv-key">Impact</div><div class="kv-val">localized change</div></div>
+      <div class="kv-item"><div class="kv-key">Origin</div><div class="kv-val">state-led</div></div>
+      <div class="kv-item"><div class="kv-key">Leak</div><div class="kv-val">resource extraction</div></div>
+      <div class="kv-item"><div class="kv-key">Ritual</div><div class="kv-val">adaptation</div></div>
+      <div class="kv-item"><div class="kv-key">Depict</div><div class="kv-val">transitional</div></div>
+    </div>
+    <div class="tag-row">
+      <span class="tag tag-olive">resistance</span>
+      <span class="tag tag-terra">social depletion</span>
+      <span class="tag">state-led</span>
+      <span class="tag">public support</span>
+    </div>
+    <div style="margin-top:auto; padding-top:0.1in;">
+      <div class="mono-text" style="font-size:6pt; border-left:1pt solid var(--gold); padding-left:0.08in;">Hope: "Ex-ambassador to the US says he was 'ignorant, not indifferent' to Epstein's crimes."</div>
+    </div>
+  </div>
+  <div class="panel panel-white" style="background:var(--cream);">
+    <div class="section-label">13 · Article — Newsweek · Center</div>
+    <div class="article-source">Center · citizens · community group</div>
+    <div class="article-url">newsweek.com/is-tiktok-censoring-content-changes-app-explained-11426599</div>
+    <div class="article-quote">"The day before the fatal shooting of Alex Pretti in Minneapolis, TikTok users noticed they were unable to post videos that were critical of Immigration and Customs Enforcement. California Governor Gavin Newsom, a Democrat, said he would launch a review of whether TikTok violated state law by censoring..."</div>
+    <div class="article-divider"></div>
+    <div class="kv-grid">
+      <div class="kv-item"><div class="kv-key">Body Experience</div><div class="kv-val">health impact</div></div>
+      <div class="kv-item"><div class="kv-key">Intention</div><div class="kv-val">adaptation</div></div>
+      <div class="kv-item"><div class="kv-key">Race</div><div class="kv-val">unspecified</div></div>
+      <div class="kv-item"><div class="kv-key">Occupation</div><div class="kv-val">community leaders</div></div>
+      <div class="kv-item"><div class="kv-key">Health</div><div class="kv-val">at risk</div></div>
+      <div class="kv-item"><div class="kv-key">Autonomy</div><div class="kv-val">externally imposed</div></div>
+      <div class="kv-item"><div class="kv-key">Impact</div><div class="kv-val">localized change</div></div>
+      <div class="kv-item"><div class="kv-key">Origin</div><div class="kv-val">colonial</div></div>
+      <div class="kv-item"><div class="kv-key">Leak</div><div class="kv-val">resource extraction</div></div>
+      <div class="kv-item"><div class="kv-key">Ritual</div><div class="kv-val">adaptation</div></div>
+      <div class="kv-item"><div class="kv-key">Depletion</div><div class="kv-val">social depletion</div></div>
+      <div class="kv-item"><div class="kv-key">Depict</div><div class="kv-val">transitional</div></div>
+    </div>
+    <div class="tag-row">
+      <span class="tag tag-olive">resistance</span>
+      <span class="tag tag-terra">social depletion</span>
+      <span class="tag">colonial</span>
+      <span class="tag">public support</span>
+    </div>
+    <div style="margin-top:auto; padding-top:0.1in;">
+      <div class="mono-text" style="font-size:6pt; border-left:1pt solid var(--gold); padding-left:0.08in;">Future: "TikTok has denied any censorship on the app."</div>
+    </div>
+  </div>
+</div>
+
+<!-- SHEET 8: Articles 9+10 -->
+<div class="sheet">
+  <div class="panel panel-white">
+    <div class="section-label">14 · Article — Forbes · Center</div>
+    <div class="article-source">Center · workers · community group</div>
+    <div class="article-url">forbes.com/sites/maryroeloffs/2025/12/31/spa-workers-accusation-got-jeffrey-epstein-banned-from-mar-a-lago-spa-report-says/</div>
+    <div class="article-quote">"Jeffrey Epstein was banned from using Mar-a-Lago's spa services in 2003 after he pressured an 18-year-old worker for sex, a new report says. Epstein's close relationship with Trump afforded him the privilege of house calls from spa employees for massages and other services."</div>
+    <div class="article-divider"></div>
+    <div class="kv-grid">
+      <div class="kv-item"><div class="kv-key">Body Experience</div><div class="kv-val">health impact</div></div>
+      <div class="kv-item"><div class="kv-key">Intention</div><div class="kv-val">adaptation</div></div>
+      <div class="kv-item"><div class="kv-key">Race</div><div class="kv-val">unspecified</div></div>
+      <div class="kv-item"><div class="kv-key">Occupation</div><div class="kv-val">workers</div></div>
+      <div class="kv-item"><div class="kv-key">Health</div><div class="kv-val">at risk</div></div>
+      <div class="kv-item"><div class="kv-key">Autonomy</div><div class="kv-val">externally imposed</div></div>
+      <div class="kv-item"><div class="kv-key">Impact</div><div class="kv-val">localized change</div></div>
+      <div class="kv-item"><div class="kv-key">Origin</div><div class="kv-val">community-led</div></div>
+      <div class="kv-item"><div class="kv-key">Leak</div><div class="kv-val">resource extraction</div></div>
+      <div class="kv-item"><div class="kv-key">Support</div><div class="kv-val">grassroots</div></div>
+      <div class="kv-item"><div class="kv-key">Ritual</div><div class="kv-val">adaptation</div></div>
+      <div class="kv-item"><div class="kv-key">Depict</div><div class="kv-val">transitional</div></div>
+    </div>
+    <div class="tag-row">
+      <span class="tag tag-olive">resistance</span>
+      <span class="tag tag-terra">social depletion</span>
+      <span class="tag">community-led</span>
+      <span class="tag">grassroots</span>
+    </div>
+    <div style="margin-top:auto; padding-top:0.1in;">
+      <div class="mono-text" style="font-size:6pt; border-left:1pt solid var(--gold); padding-left:0.08in;">Future: "Epstein was known to be sexually suggestive and expose himself during appointments, the Wall Street Journal reported."</div>
+    </div>
+  </div>
+  <div class="panel panel-white" style="background:var(--cream);">
+    <div class="section-label">15 · Article — Fox News · Lean Right</div>
+    <div class="article-source">Lean Right · workers · government</div>
+    <div class="article-url">foxnews.com/politics/bill-hillary-clinton-risk-contempt-house-after-missing-epstein-depositions</div>
+    <div class="article-quote">"The House Oversight Committee will consider whether to tee up House-wide votes on holding former President Bill Clinton and former Secretary of State Hillary Clinton in contempt of Congress. The committee had originally requested Bill and Hillary Clinton to appear before lawmakers on Oct. 14 and Oct. 9, 2025, respectively."</div>
+    <div class="article-divider"></div>
+    <div class="kv-grid">
+      <div class="kv-item"><div class="kv-key">Body Experience</div><div class="kv-val">health impact</div></div>
+      <div class="kv-item"><div class="kv-key">Intention</div><div class="kv-val">resistance</div></div>
+      <div class="kv-item"><div class="kv-key">Race</div><div class="kv-val">minority</div></div>
+      <div class="kv-item"><div class="kv-key">Gender</div><div class="kv-val">men</div></div>
+      <div class="kv-item"><div class="kv-key">Education</div><div class="kv-val">technical expertise</div></div>
+      <div class="kv-item"><div class="kv-key">Health</div><div class="kv-val">at risk</div></div>
+      <div class="kv-item"><div class="kv-key">Autonomy</div><div class="kv-val">externally imposed</div></div>
+      <div class="kv-item"><div class="kv-key">New</div><div class="kv-val">technological innovation</div></div>
+      <div class="kv-item"><div class="kv-key">Origin</div><div class="kv-val">state-led</div></div>
+      <div class="kv-item"><div class="kv-key">Leak</div><div class="kv-val">corruption</div></div>
+      <div class="kv-item"><div class="kv-key">Ritual</div><div class="kv-val">adaptation</div></div>
+      <div class="kv-item"><div class="kv-key">Depict</div><div class="kv-val">transitional</div></div>
+    </div>
+    <div class="tag-row">
+      <span class="tag tag-olive">resistance</span>
+      <span class="tag tag-terra">social depletion</span>
+      <span class="tag">state-led</span>
+      <span class="tag">public support</span>
+    </div>
+  </div>
+</div>
+
+<!-- SHEET 9: Articles 11+12 -->
+<div class="sheet">
+  <div class="panel panel-white">
+    <div class="section-label">16 · Article — The Examiner · Lean Right</div>
+    <div class="article-source">Lean Right · citizens · community group</div>
+    <div class="article-url">theexaminernews.com/the-enduring-stain-of-our-communitys-open-secret-and-a-mount-kisco-natives-heroics/</div>
+    <div class="article-quote">"Greg Ardanowski was 10 years old when he met Jimmy Collins, the coach of his local Little League team. Collins was a big local personality, and he was seen as a father figure to Ardanowsi. Collins is accused of sexually harassing the boy in the 1980s."</div>
+    <div class="article-divider"></div>
+    <div class="kv-grid">
+      <div class="kv-item"><div class="kv-key">Body Experience</div><div class="kv-val">labor stress</div></div>
+      <div class="kv-item"><div class="kv-key">Intention</div><div class="kv-val">adaptation</div></div>
+      <div class="kv-item"><div class="kv-key">Race</div><div class="kv-val">minority</div></div>
+      <div class="kv-item"><div class="kv-key">Gender</div><div class="kv-val">men</div></div>
+      <div class="kv-item"><div class="kv-key">Occupation</div><div class="kv-val">workers</div></div>
+      <div class="kv-item"><div class="kv-key">Health</div><div class="kv-val">at risk</div></div>
+      <div class="kv-item"><div class="kv-key">Autonomy</div><div class="kv-val">externally imposed</div></div>
+      <div class="kv-item"><div class="kv-key">Symbol</div><div class="kv-val">progress</div></div>
+      <div class="kv-item"><div class="kv-key">Origin</div><div class="kv-val">community-led</div></div>
+      <div class="kv-item"><div class="kv-key">Obstacles</div><div class="kv-val">cultural barriers</div></div>
+      <div class="kv-item"><div class="kv-key">Ritual</div><div class="kv-val">remembrance</div></div>
+      <div class="kv-item"><div class="kv-key">Depict</div><div class="kv-val">resilient</div></div>
+    </div>
+    <div class="tag-row">
+      <span class="tag tag-olive">progress</span>
+      <span class="tag tag-terra">social depletion</span>
+      <span class="tag">remembrance</span>
+      <span class="tag">resilient</span>
+    </div>
+    <div style="margin-top:auto; padding-top:0.1in;">
+      <div class="mono-text" style="font-size:6pt; border-left:1pt solid var(--gold); padding-left:0.08in;">Future: "Collins groomed the boy into a star player, who went on to win a league gold glove."</div>
+    </div>
+  </div>
+  <div class="panel panel-white" style="background:var(--cream);">
+    <div class="section-label">17 · Article — Reason · Lean Right</div>
+    <div class="article-source">Lean Right · citizens · community group</div>
+    <div class="article-url">reason.com/2026/01/22/josh-shapiro-goes-to-war-with-kamala-harris/</div>
+    <div class="article-quote">"Former Vice President Kamala Harris passed over Josh Shapiro to join her presidential ticket. Shapiro is the popular governor of the must-win state of Pennsylvania. In his new book, Shapiro side-eyes the Harris campaign for seeking to relegate him to the role of extreme junior partner."</div>
+    <div class="article-divider"></div>
+    <div class="kv-grid">
+      <div class="kv-item"><div class="kv-key">Body Experience</div><div class="kv-val">health impact</div></div>
+      <div class="kv-item"><div class="kv-key">Intention</div><div class="kv-val">resistance</div></div>
+      <div class="kv-item"><div class="kv-key">Race</div><div class="kv-val">unspecified</div></div>
+      <div class="kv-item"><div class="kv-key">Education</div><div class="kv-val">formal education</div></div>
+      <div class="kv-item"><div class="kv-key">Occupation</div><div class="kv-val">community leaders</div></div>
+      <div class="kv-item"><div class="kv-key">Health</div><div class="kv-val">at risk</div></div>
+      <div class="kv-item"><div class="kv-key">Autonomy</div><div class="kv-val">externally imposed</div></div>
+      <div class="kv-item"><div class="kv-key">Impact</div><div class="kv-val">localized change</div></div>
+      <div class="kv-item"><div class="kv-key">Origin</div><div class="kv-val">community-led</div></div>
+      <div class="kv-item"><div class="kv-key">Leak</div><div class="kv-val">resource extraction</div></div>
+      <div class="kv-item"><div class="kv-key">Ritual</div><div class="kv-val">adaptation</div></div>
+      <div class="kv-item"><div class="kv-key">Depict</div><div class="kv-val">transitional</div></div>
+    </div>
+    <div class="tag-row">
+      <span class="tag tag-olive">resistance</span>
+      <span class="tag tag-terra">social depletion</span>
+      <span class="tag">community-led</span>
+    </div>
+    <div style="margin-top:auto; padding-top:0.1in;">
+      <div class="mono-text" style="font-size:6pt; border-left:1pt solid var(--gold); padding-left:0.08in;">Future: "In grilling Shapiro on his views regarding Israel, the [campaign] sought to relegate him to the role of extreme junior partner."</div>
+    </div>
+  </div>
+</div>
+
+<!-- SHEET 10: Articles 13+14 -->
+<div class="sheet">
+  <div class="panel panel-white">
+    <div class="section-label">18 · Article — Daily Mail · Right</div>
+    <div class="article-source">Right · governments · government</div>
+    <div class="article-url">dailymail.co.uk/news/article-15303481/mark-epstein-brother-files-scrubbed-republican-names.html</div>
+    <div class="article-quote">"Mark Epstein, the brother of the late sex offender, has made a bombshell claim that Republicans' names are getting scrubbed from the government's files on the deceased disgraced sex offender. 'There's a facility in Winchester, Virginia, where they're scrubbing the...'"</div>
+    <div class="article-divider"></div>
+    <div class="kv-grid">
+      <div class="kv-item"><div class="kv-key">Body Experience</div><div class="kv-val">health impact</div></div>
+      <div class="kv-item"><div class="kv-key">Intention</div><div class="kv-val">resistance</div></div>
+      <div class="kv-item"><div class="kv-key">Race</div><div class="kv-val">unspecified</div></div>
+      <div class="kv-item"><div class="kv-key">Occupation</div><div class="kv-val">workers</div></div>
+      <div class="kv-item"><div class="kv-key">Health</div><div class="kv-val">at risk</div></div>
+      <div class="kv-item"><div class="kv-key">Autonomy</div><div class="kv-val">externally imposed</div></div>
+      <div class="kv-item"><div class="kv-key">Impact</div><div class="kv-val">symbolic change</div></div>
+      <div class="kv-item"><div class="kv-key">Origin</div><div class="kv-val">colonial</div></div>
+      <div class="kv-item"><div class="kv-key">Leak</div><div class="kv-val">resource extraction</div></div>
+      <div class="kv-item"><div class="kv-key">Ritual</div><div class="kv-val">adaptation</div></div>
+      <div class="kv-item"><div class="kv-key">Depletion</div><div class="kv-val">social depletion</div></div>
+      <div class="kv-item"><div class="kv-key">Depict</div><div class="kv-val">transitional</div></div>
+    </div>
+    <div class="tag-row">
+      <span class="tag tag-olive">resistance</span>
+      <span class="tag tag-terra">social depletion</span>
+      <span class="tag">colonial</span>
+      <span class="tag">public support</span>
+    </div>
+    <div style="margin-top:auto; padding-top:0.1in;">
+      <div class="mono-text" style="font-size:6pt; border-left:1pt solid var(--gold); padding-left:0.08in;">Hope: "Mark also revealed that his brother had 'dirt' on President Donald Trump during the appearance."</div>
+    </div>
+  </div>
+  <div class="panel panel-white" style="background:var(--cream);">
+    <div class="section-label">19 · Article — Post Millennial · Right</div>
+    <div class="article-source">Right · citizens · community group</div>
+    <div class="article-url">thepostmillennial.com/ghislaine-maxwell-to-testify-before-house-oversight-committee-on-february-9</div>
+    <div class="article-quote">"Ghislaine Maxwell is scheduled to testify before the House Oversight and Government Reform Committee in a closed-door deposition on February 9. Maxwell's deposition will be conducted virtually and behind closed doors. She is currently serving a 20-year sentence at a federal prison camp in Texas."</div>
+    <div class="article-divider"></div>
+    <div class="kv-grid">
+      <div class="kv-item"><div class="kv-key">Body Experience</div><div class="kv-val">health impact</div></div>
+      <div class="kv-item"><div class="kv-key">Intention</div><div class="kv-val">resistance</div></div>
+      <div class="kv-item"><div class="kv-key">Race</div><div class="kv-val">minority</div></div>
+      <div class="kv-item"><div class="kv-key">Occupation</div><div class="kv-val">policy makers</div></div>
+      <div class="kv-item"><div class="kv-key">Health</div><div class="kv-val">at risk</div></div>
+      <div class="kv-item"><div class="kv-key">Autonomy</div><div class="kv-val">externally imposed</div></div>
+      <div class="kv-item"><div class="kv-key">Impact</div><div class="kv-val">localized change</div></div>
+      <div class="kv-item"><div class="kv-key">Origin</div><div class="kv-val">community-led</div></div>
+      <div class="kv-item"><div class="kv-key">Leak</div><div class="kv-val">resource extraction</div></div>
+      <div class="kv-item"><div class="kv-key">Ritual</div><div class="kv-val">adaptation</div></div>
+      <div class="kv-item"><div class="kv-key">Depletion</div><div class="kv-val">social depletion</div></div>
+      <div class="kv-item"><div class="kv-key">Depict</div><div class="kv-val">transitional</div></div>
+    </div>
+    <div class="tag-row">
+      <span class="tag tag-olive">resistance</span>
+      <span class="tag tag-terra">social depletion</span>
+      <span class="tag">community-led</span>
+    </div>
+    <div style="margin-top:auto; padding-top:0.1in;">
+      <div class="mono-text" style="font-size:6pt; border-left:1pt solid var(--gold); padding-left:0.08in;">Future: "In a letter dated January 20, Maxwell's attorneys said she has not changed her position regarding her Fifth Amendment rights."</div>
+    </div>
+  </div>
+</div>
+
+<!-- SHEET 11: Article 15 (solo) + pathway intro -->
+<div class="sheet">
+  <div class="panel panel-white">
+    <div class="section-label">20 · Article — Spectator · Right</div>
+    <div class="article-source">Right · governments · community group</div>
+    <div class="article-url">spectator.org/how-did-summers-vetting-repeatedly-miss-epstein-ties/</div>
+    <div class="article-quote">"Larry Summers's involvement with Jeffrey Epstein goes back to at least 1998. He maintained his contact with Epstein until July 5, 2019, the day before his arrest. The question is: Did everyone miss the connection and its seriousness, or did they choose to ignore it?"</div>
+    <div class="article-divider"></div>
+    <div class="kv-grid">
+      <div class="kv-item"><div class="kv-key">Body Experience</div><div class="kv-val">health impact</div></div>
+      <div class="kv-item"><div class="kv-key">Intention</div><div class="kv-val">adaptation</div></div>
+      <div class="kv-item"><div class="kv-key">Race</div><div class="kv-val">minority</div></div>
+      <div class="kv-item"><div class="kv-key">Occupation</div><div class="kv-val">policy makers</div></div>
+      <div class="kv-item"><div class="kv-key">Health</div><div class="kv-val">at risk</div></div>
+      <div class="kv-item"><div class="kv-key">Autonomy</div><div class="kv-val">externally imposed</div></div>
+      <div class="kv-item"><div class="kv-key">Symbol</div><div class="kv-val">progress</div></div>
+      <div class="kv-item"><div class="kv-key">Support</div><div class="kv-val">institutional</div></div>
+      <div class="kv-item"><div class="kv-key">Origin</div><div class="kv-val">community-led</div></div>
+      <div class="kv-item"><div class="kv-key">Leak</div><div class="kv-val">resource extraction</div></div>
+      <div class="kv-item"><div class="kv-key">Ritual</div><div class="kv-val">remembrance</div></div>
+      <div class="kv-item"><div class="kv-key">Depict</div><div class="kv-val">transitional</div></div>
+    </div>
+    <div class="tag-row">
+      <span class="tag tag-olive">progress</span>
+      <span class="tag tag-terra">social depletion</span>
+      <span class="tag">remembrance</span>
+      <span class="tag">institutional support</span>
+    </div>
+    <div style="margin-top:auto; padding-top:0.1in;">
+      <div class="mono-text" style="font-size:6pt; border-left:1pt solid var(--gold); padding-left:0.08in;">Hope: "That is a cumulative 22 years, a considerable amount of time by any standard."</div>
+    </div>
+  </div>
+  <div class="panel" style="background:var(--black); color:#fff; justify-content:space-between; display:flex; flex-direction:column; padding:0.45in 0.42in;">
+    <div>
+      <div style="font-family:var(--fm); font-size:6pt; letter-spacing:0.16em; text-transform:uppercase; color:var(--gold); margin-bottom:0.1in;">21 · Pathway Readings</div>
+      <div style="font-family:var(--fd); font-size:28pt; line-height:1.0; letter-spacing:-0.02em; color:#fff; margin-bottom:0.15in;">Pathway<br><span style="color:var(--gold); font-style:italic;">Readings</span></div>
+      <div style="height:0.5pt; background:rgba(255,255,255,0.2); margin-bottom:0.14in;"></div>
+      <div style="font-family:var(--fb); font-size:7.5pt; line-height:1.65; color:rgba(255,255,255,0.75);">
+        <p style="margin-bottom:0.09in;">Each pathway shows the sequence diagram alongside the Epstein GNH momentum plot. Trajectory interpretations apply the wave-reading framework — phase behavior, energy contour, and propagation type inform each reading.</p>
+        <p>11 named pathways: plot · knot · pain · practical · spiritual · prayer · sad · precise · feminine · masculine · direct</p>
+      </div>
+    </div>
+    <div>
+      <div class="color-strip" style="margin-bottom:0.1in;">
+        <span style="background:rgb(170,170,170);"></span>
+        <span style="background:rgb(250,0,90);"></span>
+        <span style="background:rgb(250,200,0);"></span>
+        <span style="background:rgb(250,180,120);"></span>
+        <span style="background:rgb(250,110,0);"></span>
+        <span style="background:rgb(100,100,100);"></span>
+        <span style="background:rgb(0,0,255);"></span>
+        <span style="background:rgb(0,200,0);"></span>
+        <span style="background:rgb(255,0,0);"></span>
+        <span style="background:rgb(30,30,30); border:0.5pt solid rgba(255,255,255,0.2);"></span>
+        <span style="background:rgb(180,50,0);"></span>
+        <span style="background:rgb(255,220,0);"></span>
+        <span style="background:rgb(180,50,255);"></span>
+      </div>
+      <div style="font-family:var(--fm); font-size:6pt; color:rgba(255,255,255,0.35); letter-spacing:0.05em;">Physical Magnetism · NLP · GNH Wellness Indicators</div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ════════════════════════════════════════════════
+     PATHWAY SPREADS — one pathway per sheet (left = diagram area, right = trajectory + prompt)
+═══════════════════════════════════════════════════ -->
+
+<!-- SHEET 12: PLOT pathway -->
+<div class="sheet">
+  <div class="panel panel-white">
+    <div class="pathway-name">Plot</div>
+    <div class="pathway-colors">Grey · Pink · Gold · Nude · Orange</div>
+    <div class="pathway-description">Set political resistance from social innovation and resistance to return external validation and localized change.</div>
+    <div class="img-placeholder" style="height:2.2in; margin-bottom:0.12in;">
+      <img src="plot pathway.png" alt="plot pathway diagram" style="width:100%; height:100%; object-fit:contain;" onerror="this.parentElement.querySelector('span').style.display='block'; this.style.display='none'">
+      <span style="display:none;">plot pathway.png</span>
+    </div>
+    <div class="img-placeholder" style="height:2.2in;">
+      <img src="epstein_plot.png" alt="epstein GNH plot" style="width:100%; height:100%; object-fit:contain;" onerror="this.parentElement.querySelector('span').style.display='block'; this.style.display='none'">
+      <span style="display:none;">epstein_plot.png</span>
+    </div>
+  </div>
+  <div class="panel panel-white" style="background:var(--cream);">
+    <div class="section-label">21 · Pathway Reading — Plot</div>
+    <div class="traj-label">Trajectory Type</div>
+    <div class="traj-type">Self-actualization — traveling wave</div>
+    <div class="traj-body">Phase is linear, real part holds positive: a coherent traveling wave. Begins at 'precary,' builds toward 'blurry artesian' without inversion. No sudden jumps — a steady arc of overcoming obstacles and growth through forward propagation.</div>
+    <div class="prompt-box">
+      <p>How can we separate political resistance from public resistance and social design efforts? How can we focus on feedback from areas of success and real affect?</p>
+    </div>
+    <div style="margin-top:0.18in; border-top:0.5pt solid var(--border); padding-top:0.12in;">
+      <div class="section-label">Color Sequence</div>
+      <div style="display:flex; gap:0.06in; margin-top:0.06in; flex-wrap:wrap;">
+        <div style="display:flex; flex-direction:column; align-items:center; gap:3pt;"><div style="width:18pt; height:18pt; border-radius:3pt; background:rgb(170,170,170); border:0.5pt solid rgba(0,0,0,0.1);"></div><div style="font-family:var(--fm); font-size:5pt; color:var(--muted);">grey</div></div>
+        <div style="display:flex; flex-direction:column; align-items:center; gap:3pt;"><div style="width:18pt; height:18pt; border-radius:3pt; background:rgb(250,0,90);"></div><div style="font-family:var(--fm); font-size:5pt; color:var(--muted);">pink</div></div>
+        <div style="display:flex; flex-direction:column; align-items:center; gap:3pt;"><div style="width:18pt; height:18pt; border-radius:3pt; background:rgb(250,200,0);"></div><div style="font-family:var(--fm); font-size:5pt; color:var(--muted);">gold</div></div>
+        <div style="display:flex; flex-direction:column; align-items:center; gap:3pt;"><div style="width:18pt; height:18pt; border-radius:3pt; background:rgb(250,180,120);"></div><div style="font-family:var(--fm); font-size:5pt; color:var(--muted);">nude</div></div>
+        <div style="display:flex; flex-direction:column; align-items:center; gap:3pt;"><div style="width:18pt; height:18pt; border-radius:3pt; background:rgb(250,110,0);"></div><div style="font-family:var(--fm); font-size:5pt; color:var(--muted);">orange</div></div>
+      </div>
+    </div>
+    <div style="margin-top:0.14in; border-top:0.5pt solid var(--border); padding-top:0.1in;">
+      <div class="section-label">GNH Keywords</div>
+      <div class="mono-text" style="margin-top:0.04in;">precary → ambitious → technocracy lotiform → unextenuable → blurry artesian</div>
+    </div>
+  </div>
+</div>
+
+<!-- SHEET 13: KNOT pathway -->
+<div class="sheet">
+  <div class="panel panel-white">
+    <div class="pathway-name">Knot</div>
+    <div class="pathway-colors">White · Blue · Green · Red · Black · Brown · Yellow · Purple</div>
+    <div class="pathway-description">Clarify free speech with adaptation from transition. Resource extraction melts with community from social empowerment due to public support for resistance.</div>
+    <div class="img-placeholder" style="height:2.2in; margin-bottom:0.12in;">
+      <img src="knot pathway.png" alt="knot pathway diagram" style="width:100%; height:100%; object-fit:contain;" onerror="this.parentElement.querySelector('span').style.display='block'; this.style.display='none'">
+      <span style="display:none;">knot pathway.png</span>
+    </div>
+    <div class="img-placeholder" style="height:2.2in;">
+      <img src="epstein_knot.png" alt="epstein GNH knot" style="width:100%; height:100%; object-fit:contain;" onerror="this.parentElement.querySelector('span').style.display='block'; this.style.display='none'">
+      <span style="display:none;">epstein_knot.png</span>
+    </div>
+  </div>
+  <div class="panel panel-white" style="background:var(--cream);">
+    <div class="section-label">21 · Pathway Reading — Knot</div>
+    <div class="traj-label">Trajectory Type</div>
+    <div class="traj-type">Circular / healing — resonance cavity</div>
+    <div class="traj-body">Closed loops in the trajectory confirm a standing wave or resonance cavity. Magnitude is nearly constant — stable wave packet, no energy loss, only phase rotation. 'Analeptical' to 'brave' navigates reclamation through contained contradiction.</div>
+    <div class="prompt-box">
+      <p>Where is our freedom of expression protected? How can we drag out those boundaries by taking feedback from successful plots? How can we contribute to data sovereignty?</p>
+    </div>
+    <div style="margin-top:0.18in; border-top:0.5pt solid var(--border); padding-top:0.12in;">
+      <div class="section-label">Color Sequence</div>
+      <div style="display:flex; gap:0.05in; margin-top:0.06in; flex-wrap:wrap;">
+        <div style="display:flex; flex-direction:column; align-items:center; gap:3pt;"><div style="width:16pt; height:16pt; border-radius:3pt; background:rgb(215,215,205); border:0.5pt solid #ccc;"></div><div style="font-family:var(--fm); font-size:5pt; color:var(--muted);">white</div></div>
+        <div style="display:flex; flex-direction:column; align-items:center; gap:3pt;"><div style="width:16pt; height:16pt; border-radius:3pt; background:rgb(0,0,255);"></div><div style="font-family:var(--fm); font-size:5pt; color:var(--muted);">blue</div></div>
+        <div style="display:flex; flex-direction:column; align-items:center; gap:3pt;"><div style="width:16pt; height:16pt; border-radius:3pt; background:rgb(0,200,0);"></div><div style="font-family:var(--fm); font-size:5pt; color:var(--muted);">green</div></div>
+        <div style="display:flex; flex-direction:column; align-items:center; gap:3pt;"><div style="width:16pt; height:16pt; border-radius:3pt; background:rgb(255,0,0);"></div><div style="font-family:var(--fm); font-size:5pt; color:var(--muted);">red</div></div>
+        <div style="display:flex; flex-direction:column; align-items:center; gap:3pt;"><div style="width:16pt; height:16pt; border-radius:3pt; background:rgb(0,0,0); border:0.5pt solid rgba(0,0,0,0.3);"></div><div style="font-family:var(--fm); font-size:5pt; color:var(--muted);">black</div></div>
+        <div style="display:flex; flex-direction:column; align-items:center; gap:3pt;"><div style="width:16pt; height:16pt; border-radius:3pt; background:rgb(180,50,0);"></div><div style="font-family:var(--fm); font-size:5pt; color:var(--muted);">brown</div></div>
+        <div style="display:flex; flex-direction:column; align-items:center; gap:3pt;"><div style="width:16pt; height:16pt; border-radius:3pt; background:rgb(255,220,0);"></div><div style="font-family:var(--fm); font-size:5pt; color:var(--muted);">yellow</div></div>
+        <div style="display:flex; flex-direction:column; align-items:center; gap:3pt;"><div style="width:16pt; height:16pt; border-radius:3pt; background:rgb(180,50,255);"></div><div style="font-family:var(--fm); font-size:5pt; color:var(--muted);">purple</div></div>
+      </div>
+    </div>
+    <div style="margin-top:0.14in; border-top:0.5pt solid var(--border); padding-top:0.1in;">
+      <div class="section-label">GNH Keywords</div>
+      <div class="mono-text" style="margin-top:0.04in;">analeptical → photopathy → bulbous heroic → apophantic → swabble → notable submissive → redressible authority → brave</div>
+    </div>
+  </div>
+</div>
+
+<!-- SHEET 14: PAIN + PRACTICAL -->
+<div class="sheet">
+  <div class="panel panel-white">
+    <div class="pathway-name">Pain</div>
+    <div class="pathway-colors">Gold · Orange</div>
+    <div class="pathway-description">Use inspiration from clarity and distribution from resistance to address pain from localized change as a return.</div>
+    <div class="img-placeholder" style="height:1.8in; margin-bottom:0.1in;">
+      <img src="pain pathway.png" alt="pain pathway diagram" style="width:100%; height:100%; object-fit:contain;" onerror="this.parentElement.querySelector('span').style.display='block'; this.style.display='none'">
+      <span style="display:none;">pain pathway.png</span>
+    </div>
+    <div class="img-placeholder" style="height:1.8in; margin-bottom:0.14in;">
+      <img src="epstein_pain.png" alt="epstein GNH pain" style="width:100%; height:100%; object-fit:contain;" onerror="this.parentElement.querySelector('span').style.display='block'; this.style.display='none'">
+      <span style="display:none;">epstein_pain.png</span>
+    </div>
+    <div style="border-top:0.5pt solid var(--border); padding-top:0.1in;">
+      <div class="traj-label">Trajectory Type</div>
+      <div class="traj-type" style="font-size:8.5pt;">Oppression — vertical penetration</div>
+      <div class="traj-body" style="font-size:7pt;">A vertical line in the trajectory indicates uniform penetration — traveling wave with near-zero interference. Imaginary part shows minimal rotation; phase drops without oscillation. 'Technocracy lotiform' to 'blurry artesian' passes through downward pressure with no lateral escape: direct passage through obstacle.</div>
+      <div class="prompt-box"><p>How does the impact of resistance directly affect political resistance?</p></div>
+    </div>
+  </div>
+  <div class="panel panel-white" style="background:var(--cream);">
+    <div class="pathway-name">Practical</div>
+    <div class="pathway-colors">Yellow · Green</div>
+    <div class="pathway-description">Use energy from work to achieve public support for the transition.</div>
+    <div class="img-placeholder" style="height:1.8in; margin-bottom:0.1in;">
+      <img src="practical pathway.png" alt="practical pathway diagram" style="width:100%; height:100%; object-fit:contain;" onerror="this.parentElement.querySelector('span').style.display='block'; this.style.display='none'">
+      <span style="display:none;">practical pathway.png</span>
+    </div>
+    <div class="img-placeholder" style="height:1.8in; margin-bottom:0.14in;">
+      <img src="epstein_practical.png" alt="epstein GNH practical" style="width:100%; height:100%; object-fit:contain;" onerror="this.parentElement.querySelector('span').style.display='block'; this.style.display='none'">
+      <span style="display:none;">epstein_practical.png</span>
+    </div>
+    <div style="border-top:0.5pt solid var(--border); padding-top:0.1in;">
+      <div class="traj-label">Trajectory Type</div>
+      <div class="traj-type" style="font-size:8.5pt;">Steady state — energy-conserving wave</div>
+      <div class="traj-body" style="font-size:7pt;">Flat magnitude across the full plot confirms energy conservation — persistent, stable. Phase remains consistent: coherent wave maintaining identity. 'Redressible authority' to 'bulbous heroic' sustains a consistent channel for social connection in the trajectory of resistance.</div>
+      <div class="prompt-box"><p>How can we dedicate our efforts to social connection in the trajectory of resistance?</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- SHEET 15: SPIRITUAL + PRAYER -->
+<div class="sheet">
+  <div class="panel panel-white">
+    <div class="pathway-name">Spiritual</div>
+    <div class="pathway-colors">Blue · Brown</div>
+    <div class="pathway-description">Adaptation with social empowerment.</div>
+    <div class="img-placeholder" style="height:1.8in; margin-bottom:0.1in;">
+      <img src="spiritual pathway.png" alt="spiritual pathway diagram" style="width:100%; height:100%; object-fit:contain;" onerror="this.parentElement.querySelector('span').style.display='block'; this.style.display='none'">
+      <span style="display:none;">spiritual pathway.png</span>
+    </div>
+    <div class="img-placeholder" style="height:1.8in; margin-bottom:0.14in;">
+      <img src="epstein_spiritual.png" alt="epstein GNH spiritual" style="width:100%; height:100%; object-fit:contain;" onerror="this.parentElement.querySelector('span').style.display='block'; this.style.display='none'">
+      <span style="display:none;">epstein_spiritual.png</span>
+    </div>
+    <div style="border-top:0.5pt solid var(--border); padding-top:0.1in;">
+      <div class="traj-label">Trajectory Type</div>
+      <div class="traj-type" style="font-size:8.5pt;">Incline — accumulating complexity</div>
+      <div class="traj-body" style="font-size:7pt;">Real part begins positive, trends negative (traveling wave shifting to reflected). Imaginary part strengthens over time, indicating growing rotational complexity. Magnitude rises — energy accumulation. 'Photopathy' to 'notable submissive': stable ground gives way to deeper difficulty as social resources are tested against actual community needs.</div>
+      <div class="prompt-box"><p>How can we be sure that our social resources actually meet our community goals and needs?</p></div>
+    </div>
+  </div>
+  <div class="panel panel-white" style="background:var(--cream);">
+    <div class="pathway-name">Prayer</div>
+    <div class="pathway-colors">Nude · White</div>
+    <div class="pathway-description">External validation toward free speech.</div>
+    <div class="img-placeholder" style="height:1.8in; margin-bottom:0.1in;">
+      <img src="prayer pathway.png" alt="prayer pathway diagram" style="width:100%; height:100%; object-fit:contain;" onerror="this.parentElement.querySelector('span').style.display='block'; this.style.display='none'">
+      <span style="display:none;">prayer pathway.png</span>
+    </div>
+    <div class="img-placeholder" style="height:1.8in; margin-bottom:0.14in;">
+      <img src="epstein_prayer.png" alt="epstein GNH prayer" style="width:100%; height:100%; object-fit:contain;" onerror="this.parentElement.querySelector('span').style.display='block'; this.style.display='none'">
+      <span style="display:none;">epstein_prayer.png</span>
+    </div>
+    <div style="border-top:0.5pt solid var(--border); padding-top:0.1in;">
+      <div class="traj-label">Trajectory Type</div>
+      <div class="traj-type" style="font-size:8.5pt;">Incline — increasing complexity</div>
+      <div class="traj-body" style="font-size:7pt;">Phase increases monotonically, magnitude accumulates. Wave packet moves into higher complexity without resolution. 'Unextenuable' to 'analeptical' moves from embodied resistance toward something restorative but not yet arrived — navigating a culture of acceptance through increasing tension rather than release.</div>
+      <div class="prompt-box"><p>How can we support a culture of acceptance?</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- SHEET 16: SAD + PRECISE -->
+<div class="sheet">
+  <div class="panel panel-white">
+    <div class="pathway-name">Sad</div>
+    <div class="pathway-colors">Purple · Grey · Red</div>
+    <div class="pathway-description">Use freedom from resistance to political resistance for resource extraction awareness.</div>
+    <div class="img-placeholder" style="height:1.8in; margin-bottom:0.1in;">
+      <img src="sad pathway.png" alt="sad pathway diagram" style="width:100%; height:100%; object-fit:contain;" onerror="this.parentElement.querySelector('span').style.display='block'; this.style.display='none'">
+      <span style="display:none;">sad pathway.png</span>
+    </div>
+    <div class="img-placeholder" style="height:1.8in; margin-bottom:0.14in;">
+      <img src="epstein_sad.png" alt="epstein GNH sad" style="width:100%; height:100%; object-fit:contain;" onerror="this.parentElement.querySelector('span').style.display='block'; this.style.display='none'">
+      <span style="display:none;">epstein_sad.png</span>
+    </div>
+    <div style="border-top:0.5pt solid var(--border); padding-top:0.1in;">
+      <div class="traj-label">Trajectory Type</div>
+      <div class="traj-type" style="font-size:8.5pt;">Incline then decline — wave inversion + release</div>
+      <div class="traj-body" style="font-size:7pt;">Phase rises to a peak then crosses ±π — wave inversion at the apex. Magnitude spikes (localized excitation) then drops (destructive interference). Zig-zag trajectory: interference then reflection. 'Brave' to 'apophantic' — naming what has been extracted is itself a form of return.</div>
+      <div class="prompt-box"><p>How can we expand the space we achieve from resistance and dedicate it back to our collection of more data?</p></div>
+    </div>
+  </div>
+  <div class="panel panel-white" style="background:var(--cream);">
+    <div class="pathway-name">Precise</div>
+    <div class="pathway-colors">Pink · Black</div>
+    <div class="pathway-description">Give openness from social innovation to community.</div>
+    <div class="img-placeholder" style="height:1.8in; margin-bottom:0.1in;">
+      <img src="precise pathway.png" alt="precise pathway diagram" style="width:100%; height:100%; object-fit:contain;" onerror="this.parentElement.querySelector('span').style.display='block'; this.style.display='none'">
+      <span style="display:none;">precise pathway.png</span>
+    </div>
+    <div class="img-placeholder" style="height:1.8in; margin-bottom:0.14in;">
+      <img src="epstein_precise.png" alt="epstein GNH precise" style="width:100%; height:100%; object-fit:contain;" onerror="this.parentElement.querySelector('span').style.display='block'; this.style.display='none'">
+      <span style="display:none;">epstein_precise.png</span>
+    </div>
+    <div style="border-top:0.5pt solid var(--border); padding-top:0.1in;">
+      <div class="traj-label">Trajectory Type</div>
+      <div class="traj-type" style="font-size:8.5pt;">Flat / stable — most coherent wave</div>
+      <div class="traj-body" style="font-size:7pt;">Constant magnitude, steady phase — the most coherent wave in the set. No oscillation in the imaginary part; real part holds flat. Near-straight trajectory: uniform propagation. 'Ambitious' to 'swabble' holds an enduring channel between social innovation and community — design for the cracks.</div>
+      <div class="prompt-box"><p>How can we specifically direct our new designs to the cracks that cause separation between differences?</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- SHEET 17: FEMININE + MASCULINE -->
+<div class="sheet">
+  <div class="panel panel-white">
+    <div class="pathway-name">Feminine</div>
+    <div class="pathway-colors">Brown · Gold · Orange · Pink</div>
+    <div class="pathway-description">Use social empowerment to resist pain of localized change as new social innovation.</div>
+    <div class="img-placeholder" style="height:1.8in; margin-bottom:0.1in;">
+      <img src="fem pathway.png" alt="feminine pathway diagram" style="width:100%; height:100%; object-fit:contain;" onerror="this.parentElement.querySelector('span').style.display='block'; this.style.display='none'">
+      <span style="display:none;">fem pathway.png</span>
+    </div>
+    <div class="img-placeholder" style="height:1.8in; margin-bottom:0.14in;">
+      <img src="epstein_feminine.png" alt="epstein GNH feminine" style="width:100%; height:100%; object-fit:contain;" onerror="this.parentElement.querySelector('span').style.display='block'; this.style.display='none'">
+      <span style="display:none;">epstein_feminine.png</span>
+    </div>
+    <div style="border-top:0.5pt solid var(--border); padding-top:0.1in;">
+      <div class="traj-label">Trajectory Type</div>
+      <div class="traj-type" style="font-size:8.5pt;">Consistent / stable — slow reclamation</div>
+      <div class="traj-body" style="font-size:7pt;">Flat magnitude with low-amplitude real oscillation — coherent, energy-conserving. Phase moves gradually, suggesting gentle mode transition rather than rupture. 'Notable submissive' to 'ambitious': sovereignty validated through network, avant-garde comfort found through constancy.</div>
+      <div class="prompt-box"><p>Where are our sources that charge our sovereignty and validate our identities in a network? How can we make ourselves more comfortable with the ontology of change and the avant garde?</p></div>
+    </div>
+  </div>
+  <div class="panel panel-white" style="background:var(--cream);">
+    <div class="pathway-name">Masculine</div>
+    <div class="pathway-colors">Red · Blue · Orange</div>
+    <div class="pathway-description">Use awareness from resource extraction to adaptation to address pain from localized change as a seed for a return.</div>
+    <div class="img-placeholder" style="height:1.8in; margin-bottom:0.1in;">
+      <img src="masc pathway.png" alt="masculine pathway diagram" style="width:100%; height:100%; object-fit:contain;" onerror="this.parentElement.querySelector('span').style.display='block'; this.style.display='none'">
+      <span style="display:none;">masc pathway.png</span>
+    </div>
+    <div class="img-placeholder" style="height:1.8in; margin-bottom:0.14in;">
+      <img src="epstein_masculine.png" alt="epstein GNH masculine" style="width:100%; height:100%; object-fit:contain;" onerror="this.parentElement.querySelector('span').style.display='block'; this.style.display='none'">
+      <span style="display:none;">epstein_masculine.png</span>
+    </div>
+    <div style="border-top:0.5pt solid var(--border); padding-top:0.1in;">
+      <div class="traj-label">Trajectory Type</div>
+      <div class="traj-type" style="font-size:8.5pt;">Grounding / decline — damped resolution</div>
+      <div class="traj-body" style="font-size:7pt;">Real part starts positive and declines (forward propagation shifting toward reflection). Magnitude drops: damping, energy release into environment. Grounded downward arc resolving rather than escalating. 'Apophantic' to 'blurry artesian' — extracting what was hidden, seeding a return through momentum and unity.</div>
+      <div class="prompt-box"><p>What is the missing data around the people who have power over us? What changes are developing from political resistance? How can we instill momentum and unity amongst differences?</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- SHEET 18: DIRECT + NETWORK TABLE -->
+<div class="sheet">
+  <div class="panel panel-white">
+    <div class="pathway-name">Direct</div>
+    <div class="pathway-colors">Red · Orange</div>
+    <div class="pathway-description">Use gratitude from a return and inspiration from clarity to limit resource extraction from localized change.</div>
+    <div class="img-placeholder" style="height:1.8in; margin-bottom:0.1in;">
+      <img src="direct pathway.png" alt="direct pathway diagram" style="width:100%; height:100%; object-fit:contain;" onerror="this.parentElement.querySelector('span').style.display='block'; this.style.display='none'">
+      <span style="display:none;">direct pathway.png</span>
+    </div>
+    <div class="img-placeholder" style="height:1.8in; margin-bottom:0.14in;">
+      <img src="epstein_direct.png" alt="epstein GNH direct" style="width:100%; height:100%; object-fit:contain;" onerror="this.parentElement.querySelector('span').style.display='block'; this.style.display='none'">
+      <span style="display:none;">epstein_direct.png</span>
+    </div>
+    <div style="border-top:0.5pt solid var(--border); padding-top:0.1in;">
+      <div class="traj-label">Trajectory Type</div>
+      <div class="traj-type" style="font-size:8.5pt;">Steady degrowth — deliberate damping</div>
+      <div class="traj-body" style="font-size:7pt;">Monotonically decreasing real part — forward wave slowing to stillness. Phase is linear throughout: pure traveling wave with no reflection, no oscillation. Magnitude holds then drops (final damping). 'Apophantic' to 'blurry artesian' with deliberate downward purpose — degrowth as design. What our innovations leave in their wake structures our resource networks.</div>
+      <div class="prompt-box"><p>How can the impact of our creations and innovations in design inform how we structure our resource networks?</p></div>
+    </div>
+  </div>
+
+  <!-- RIGHT: NETWORK TABLE -->
+  <div class="panel panel-white" style="background:var(--cream);">
+    <div class="section-label">26 · Optimized Circuitry</div>
+    <div class="page-title" style="font-size:13pt; margin-bottom:0.06in;">Optimized Circuitry<br>for Epstein's Color World</div>
+    <div class="mono-text" style="margin-bottom:0.1in;">Network analysis of color-concept relationships. Closeness and betweenness centrality reveal which concepts act as bridges or hubs within the semantic field.</div>
+    <div class="img-placeholder" style="height:1.5in; margin-bottom:0.1in;">
+      <img src="epstein_network.png" alt="Epstein network diagram" style="width:100%; height:100%; object-fit:contain;" onerror="this.parentElement.querySelector('span').style.display='block'; this.style.display='none'">
+      <span style="display:none;">epstein_network.png</span>
+    </div>
+    <table class="data-table">
+      <thead>
+        <tr><th>#</th><th>Concept</th><th>Score</th><th>Eigvec</th><th>Btwn</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>0</td><td><span class="swatch-sm" style="background:rgb(250,180,120);"></span>Nude — ext. validation</td><td><div class="bar-cell"><div class="bar-fill" style="width:30pt;"></div>0.333</div></td><td>0.1265</td><td>0.6212</td></tr>
+        <tr><td>1</td><td><span class="swatch-sm" style="background:rgb(170,170,170);"></span>Grey — pol. resistance</td><td><div class="bar-cell"><div class="bar-fill" style="width:30pt;"></div>0.333</div></td><td>0.3349</td><td>0.0000</td></tr>
+        <tr><td>2</td><td><span class="swatch-sm" style="background:rgb(0,0,0); border:0.5pt solid #ccc;"></span>Black — community</td><td><div class="bar-cell"><div class="bar-fill" style="width:29pt;"></div>0.326</div></td><td>0.3305</td><td>0.0000</td></tr>
+        <tr><td>3</td><td><span class="swatch-sm" style="background:rgb(250,200,0);"></span>Gold — resistance</td><td><div class="bar-cell"><div class="bar-fill" style="width:28pt;"></div>0.320</div></td><td>0.2252</td><td>0.3030</td></tr>
+        <tr><td>4</td><td><span class="swatch-sm" style="background:rgb(180,50,255);"></span>Purple — resistance</td><td><div class="bar-cell"><div class="bar-fill" style="width:27pt;"></div>0.297</div></td><td>0.2864</td><td>0.0758</td></tr>
+        <tr><td>5</td><td><span class="swatch-sm" style="background:rgb(180,50,0);"></span>Brown — soc. empwr.</td><td><div class="bar-cell"><div class="bar-fill" style="width:25pt;"></div>0.284</div></td><td>0.3038</td><td>0.0000</td></tr>
+        <tr><td>6</td><td><span class="swatch-sm" style="background:rgb(250,0,90);"></span>Pink — soc. innovation</td><td><div class="bar-cell"><div class="bar-fill" style="width:25pt;"></div>0.279</div></td><td>0.3009</td><td>0.0000</td></tr>
+        <tr><td>7</td><td><span class="swatch-sm" style="background:rgb(0,200,0);"></span>Green — transition</td><td><div class="bar-cell"><div class="bar-fill" style="width:24pt;"></div>0.269</div></td><td>0.2943</td><td>0.0000</td></tr>
+        <tr><td>8</td><td><span class="swatch-sm" style="background:rgb(0,0,255);"></span>Blue — adaptation</td><td><div class="bar-cell"><div class="bar-fill" style="width:24pt;"></div>0.268</div></td><td>0.2940</td><td>0.0000</td></tr>
+        <tr><td>9</td><td><span class="swatch-sm" style="background:rgb(255,220,0);"></span>Yellow — pub. support</td><td><div class="bar-cell"><div class="bar-fill" style="width:24pt;"></div>0.268</div></td><td>0.2939</td><td>0.0000</td></tr>
+        <tr><td>10</td><td><span class="swatch-sm" style="background:rgb(215,215,205); border:0.5pt solid #bbb;"></span>White — free speech</td><td><div class="bar-cell"><div class="bar-fill" style="width:21pt;"></div>0.236</div></td><td>0.2742</td><td>0.0000</td></tr>
+        <tr><td>11</td><td><span class="swatch-sm" style="background:rgb(250,110,0);"></span>Orange — loc. change</td><td><div class="bar-cell"><div class="bar-fill" style="width:18pt;"></div>0.201</div></td><td>0.2522</td><td>0.0000</td></tr>
+        <tr><td>12</td><td><span class="swatch-sm" style="background:rgb(255,0,0);"></span>Red — resource extr.</td><td><div class="bar-cell"><div class="bar-fill" style="width:13pt;"></div>0.151</div></td><td>0.2208</td><td>0.0000</td></tr>
+      </tbody>
+    </table>
+    <div style="margin-top:auto; padding-top:0.1in; border-top:0.5pt solid var(--border);">
+      <div class="mono-text" style="font-size:5.5pt;">© Physical Magnetism · daniellegauthier2028@u.northwestern.edu · daniellegauthier.github.io/physicalmagnetism.html</div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
